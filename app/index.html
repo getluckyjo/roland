@@ -1,0 +1,1503 @@
+<title>Roland's Home OT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: a phone-first therapy binder. Each goal is a coloured divider tab
+   (the clinic's foam-block colours), content is one column of cards, and the
+   tab bar sits under the thumb. */
+:root {
+  --bg: #f1f4f9;
+  --surface: #ffffff;
+  --surface-2: #e7ecf4;
+  --ink: #16203a;
+  --ink-2: #44506b;
+  --ink-3: #66718a;
+  --line: #d6dde9;
+  --accent: #2346a6;
+  --accent-ink: #ffffff;
+  --accent-soft: #e2e9f9;
+  --good: #23824a;
+  --warn: #a86d00;
+  --bad: #b8392f;
+  --g-body: #c43c35;
+  --g-balance: #187f86;
+  --g-twohands: #5d7c1c;
+  --g-hands: #b55e08;
+  --g-scissors: #e0ab10;
+  --g-pencil: #5e4bc0;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --ot-1: #c8423b;
+  --ot-3: #e8c21c;
+  --ot-4: #6cae3e;
+  --shadow: 0 1px 2px rgba(22, 32, 58, .06), 0 4px 14px rgba(22, 32, 58, .06);
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10151f; --surface: #182030; --surface-2: #222c3f; --ink: #e9eef7; --ink-2: #b9c2d4;
+    --ink-3: #8f9ab0; --line: #2d3850; --accent: #8fb0ff; --accent-ink: #0d1424; --accent-soft: #1f2c4a;
+    --good: #5cc787; --warn: #e3ac3c; --bad: #ef7d73; --s1: #3987e5; --s2: #d95926;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10151f; --surface: #182030; --surface-2: #222c3f; --ink: #e9eef7; --ink-2: #b9c2d4;
+  --ink-3: #8f9ab0; --line: #2d3850; --accent: #8fb0ff; --accent-ink: #0d1424; --accent-soft: #1f2c4a;
+  --good: #5cc787; --warn: #e3ac3c; --bad: #ef7d73; --s1: #3987e5; --s2: #d95926;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.5 var(--font-body); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.45rem; font-weight: 800; line-height: 1.15; }
+h3 { font-size: 1.1rem; font-weight: 600; line-height: 1.25; }
+p { margin: 0; }
+a { color: var(--accent); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.muted { color: var(--ink-3); }
+.small { font-size: .88rem; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* App frame */
+.topbar { padding: 14px 16px 10px; max-width: 820px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+.brand { flex: 1; min-width: 0; }
+.brand h1 { font-size: 1.55rem; font-weight: 800; line-height: 1.05; }
+.brand p { color: var(--ink-3); font-size: .9rem; margin-top: 3px; }
+.iconbtn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--surface);
+  border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: .9rem; color: var(--ink); }
+.iconbtn svg { width: 18px; height: 18px; }
+main { max-width: 820px; margin: 0 auto; padding-inline: 16px; padding-block: 4px 120px; }
+.view { display: grid; gap: 16px; }
+.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 1px solid var(--line);
+  padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px)); }
+.tabs ul { list-style: none; margin: 0 auto; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); max-width: 820px; }
+.tabs button { width: 100%; background: none; border: 0; display: grid; justify-items: center; gap: 2px; padding: 6px 2px;
+  font-size: .72rem; font-weight: 700; color: var(--ink-3); border-radius: 10px; }
+.tabs button svg { width: 22px; height: 22px; }
+.tabs button[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
+@media (min-width: 860px) {
+  .tabs { position: sticky; top: env(safe-area-inset-top, 0px); bottom: auto; border-top: 0; border-bottom: 1px solid var(--line); padding: 6px 16px; }
+  .tabs button { grid-auto-flow: column; gap: 8px; font-size: .9rem; padding: 9px 6px; }
+  .tabs button svg { width: 18px; height: 18px; }
+  main { padding-block: 20px 60px; }
+}
+
+/* Cards & bits */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; box-shadow: var(--shadow); min-width: 0; }
+.card > * + * { margin-top: 10px; }
+.stack > * + * { margin-top: 10px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.grid2 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.eyebrow { font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; padding: 12px 18px;
+  font-weight: 700; border: 1px solid transparent; background: var(--accent); color: var(--accent-ink); text-decoration: none; }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--line); }
+.btn.small { padding: 8px 12px; font-size: .9rem; border-radius: 10px; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn svg { width: 18px; height: 18px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+  padding: 6px 12px; font-size: .9rem; font-weight: 700; color: var(--ink-2); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--g, var(--ink-3)); }
+.banner { border-radius: 12px; padding: 12px 14px; background: var(--accent-soft); color: var(--ink); font-size: .95rem; }
+.banner.warn { background: color-mix(in srgb, var(--warn) 16%, var(--surface)); }
+.banner b { font-weight: 700; }
+ul.clean { margin: 0; padding-left: 1.15em; }
+ul.clean li + li { margin-top: 4px; }
+ol.steps { margin: 0; padding-left: 1.3em; }
+ol.steps li + li { margin-top: 4px; }
+
+/* Goal colours (binder dividers) */
+[data-g="body"] { --g: var(--g-body); --g-on: #fff; }
+[data-g="balance"] { --g: var(--g-balance); --g-on: #fff; }
+[data-g="twohands"] { --g: var(--g-twohands); --g-on: #fff; }
+[data-g="hands"] { --g: var(--g-hands); --g-on: #fff; }
+[data-g="scissors"] { --g: var(--g-scissors); --g-on: #231a00; }
+[data-g="pencil"] { --g: var(--g-pencil); --g-on: #fff; }
+.idx { display: inline-block; background: var(--g); color: var(--g-on); font-size: .7rem; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; padding: 5px 10px 4px; border-radius: 8px 8px 0 0; margin-left: 14px; position: relative; top: 1px; }
+.tabbed { display: block; }
+.tabbed > .card { border-top-left-radius: 6px; }
+
+/* Today */
+.daypick { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.daypick .chip { flex: 0 0 auto; }
+.plan { display: grid; gap: 12px; }
+.block { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: start; }
+.block .when { text-align: center; padding-top: 22px; }
+.block .when b { display: block; font-family: var(--font-display); font-size: 1.5rem; line-height: 1; font-weight: 800; }
+.block .when span { font-size: .72rem; color: var(--ink-3); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.block .card { padding: 14px; }
+.actbtn { all: unset; box-sizing: border-box; cursor: pointer; display: block; width: 100%; }
+.actbtn.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); text-align: left; }
+.acard > * + * { margin-top: 0; }
+.actbtn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.actbtn h3 { text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--g) 60%, transparent); text-underline-offset: 4px; text-decoration-thickness: 2px; }
+.swap { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.swap .chip { font-size: .8rem; padding: 4px 10px; }
+.say { border-radius: 10px; background: var(--surface-2); padding: 8px 12px; font-weight: 700; }
+.say::before { content: "Say: "; color: var(--ink-3); font-weight: 400; }
+.hero { display: grid; gap: 6px; }
+.hero h2 { font-size: 1.8rem; }
+
+/* Activities */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.acard { padding: 0; overflow: hidden; display: flex; flex-direction: column; height: 100%; }
+.acard .ph { aspect-ratio: 4 / 3; background: var(--surface-2); max-width: 100%; }
+.acard .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.acard .ph.none { aspect-ratio: auto; height: 64px; display: grid; place-items: center; color: var(--g); background: color-mix(in srgb, var(--g) 10%, var(--surface)); }
+.acard .ph.none svg { width: 34px; height: 34px; opacity: .85; }
+.acard .txt { padding: 12px 14px 14px; display: grid; gap: 4px; }
+.acard .txt p { color: var(--ink-2); font-size: .92rem; }
+
+/* Sheet (activity detail / timer) */
+.scrim { position: fixed; inset: 0; background: rgba(10, 14, 24, .5); z-index: 40; display: grid; align-items: end; justify-items: center; }
+.sheet { background: var(--bg); width: min(720px, 100%); max-height: 92vh; overflow-y: auto; border-radius: 20px 20px 0 0;
+  padding: 0 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
+@media (min-width: 760px) { .scrim { align-items: center; } .sheet { border-radius: 20px; max-height: 88vh; } }
+.sheet-head { position: sticky; top: 0; background: var(--bg); display: flex; align-items: center; gap: 10px; padding: 14px 0 10px; z-index: 2; }
+.sheet-head h2 { flex: 1; min-width: 0; font-size: 1.35rem; }
+.closebtn { border: 1px solid var(--line); background: var(--surface); border-radius: 50%; width: 40px; height: 40px; display: grid; place-items: center; flex: 0 0 auto; }
+.closebtn svg { width: 18px; height: 18px; }
+.detail { display: grid; gap: 12px; }
+.detail figure { margin: 0; }
+.detail figure img { border-radius: 12px; display: block; width: 100%; max-height: 360px; object-fit: cover; }
+.detail figcaption { font-size: .85rem; color: var(--ink-3); margin-top: 6px; }
+.ladder { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.ladder > div { border-radius: 12px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); }
+.ladder b { display: block; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+
+/* Timer */
+.timer { display: grid; justify-items: center; gap: 14px; padding-block: 8px 4px; }
+.dial { width: min(260px, 70vw); aspect-ratio: 1; position: relative; max-width: 100%; }
+.dial svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.dial .read { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-display); font-size: 3rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 12px; padding: 4px; gap: 4px; }
+.seg button { border: 0; background: none; padding: 8px 14px; border-radius: 9px; font-weight: 700; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+.bigsecs { font-family: var(--font-display); font-weight: 800; font-size: 5rem; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* Forms */
+.form { display: grid; gap: 14px; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field > label, .field > .lbl { font-weight: 700; font-size: .95rem; }
+.field .hint { font-size: .84rem; color: var(--ink-3); }
+.field input[type="date"], .field input[type="number"], .field input[type="text"], .field select, .field textarea {
+  width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; min-height: 44px; }
+.field textarea { min-height: 72px; resize: vertical; }
+.inline { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+.pairs { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.scale { display: flex; flex-wrap: wrap; gap: 6px; }
+.scale label { position: relative; }
+.scale input { position: absolute; opacity: 0; inset: 0; }
+.scale span { display: inline-block; border: 1px solid var(--line); background: var(--surface); padding: 8px 12px; border-radius: 10px; font-weight: 700; font-size: .9rem; color: var(--ink-2); }
+.scale input:checked + span { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.scale input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.pick { display: grid; gap: 10px; }
+.pick .grp { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pick .grp .idx { margin: 0 6px 0 0; border-radius: 6px; top: 0; }
+.pick .chip { font-size: .82rem; padding: 5px 10px; }
+.entry { display: grid; gap: 4px; padding: 12px 0; border-top: 1px solid var(--line); }
+.entry:first-child { border-top: 0; padding-top: 0; }
+.entry .meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: .86rem; color: var(--ink-3); }
+.copybox { width: 100%; min-height: 180px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: var(--surface); font: .9rem/1.45 var(--font-body); }
+
+/* Progress */
+.tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; }
+.tile .lbl { font-size: .85rem; color: var(--ink-3); }
+.tile .val { font-size: 1.9rem; font-weight: 700; line-height: 1.15; margin-top: 4px; }
+.tile .sub { font-size: .84rem; color: var(--ink-2); margin-top: 2px; }
+.chart { position: relative; margin: 0; }
+.chart svg { width: 100%; max-width: 100%; height: auto; display: block; overflow: visible; }
+.chart .grid line { stroke: var(--line); stroke-width: 1; }
+.chart .axis text { fill: var(--ink-3); font-size: 11px; font-family: var(--font-body); }
+.chart .goal line { stroke: var(--ink-3); stroke-width: 1; }
+.chart .goal text { fill: var(--ink-2); font-size: 11px; font-weight: 700; font-family: var(--font-body); }
+.chart .cross { stroke: var(--ink-3); stroke-width: 1; }
+.chart .series path { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .86rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 16px; height: 2px; border-radius: 2px; background: var(--c); }
+.legend i.ring { width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--ink-3); }
+.tip { position: absolute; top: 4px; pointer-events: none; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 10px; font-size: .84rem; box-shadow: var(--shadow); min-width: 130px; z-index: 3; }
+.tip .r { display: flex; align-items: center; gap: 8px; }
+.tip .r i { width: 12px; height: 2px; background: var(--c); display: inline-block; }
+.tip .r b { font-variant-numeric: tabular-nums; }
+.empty { border: 1px dashed var(--line); border-radius: 12px; padding: 18px; text-align: center; color: var(--ink-3); font-size: .92rem; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); font-weight: 700; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: .8rem; font-weight: 700; background: var(--surface-2); color: var(--ink-2); }
+.pill.up { background: color-mix(in srgb, var(--good) 18%, var(--surface)); color: var(--good); }
+.pill.down { background: color-mix(in srgb, var(--bad) 16%, var(--surface)); color: var(--bad); }
+.skills { display: grid; }
+.skill { display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); }
+.skill:first-child { border-top: 0; }
+@media (max-width: 560px) { .skill { grid-template-columns: 1fr; } }
+.meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; width: 92px; }
+.meter i { height: 8px; border-radius: 2px; background: var(--surface-2); }
+.meter i.on { background: var(--accent); }
+
+/* OT scale tiles (from the OT report) */
+.otscale { display: grid; gap: 8px; }
+.otrow { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+.otrow .tiles5 { display: flex; gap: 4px; }
+.otrow .tiles5 i { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--line); display: grid; place-items: center;
+  font-style: normal; font-weight: 700; font-size: .85rem; color: var(--ink-3); background: var(--surface); }
+.otrow .tiles5 i.may { box-shadow: inset 0 0 0 2px var(--ink-3); }
+.otrow .tiles5 i.sep { color: #1b1b1b; }
+.otrow .tiles5 i.sep.v1, .otrow .tiles5 i.sep.v2 { background: var(--ot-1); color: #fff; }
+.otrow .tiles5 i.sep.v3 { background: var(--ot-3); }
+.otrow .tiles5 i.sep.v4, .otrow .tiles5 i.sep.v5 { background: var(--ot-4); }
+
+/* Guide */
+.toc { display: flex; gap: 6px; flex-wrap: wrap; }
+.toc a { text-decoration: none; }
+.guide section { scroll-margin-top: 70px; }
+.cues { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.cue { border-radius: 12px; border: 1px solid var(--line); background: var(--surface); padding: 10px 12px; }
+.cue b { display: block; font-size: 1.05rem; }
+.cue span { color: var(--ink-3); font-size: .86rem; }
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+.diagram svg { width: 100%; height: auto; display: block; }
+.diagram text { font-family: var(--font-body); }
+
+/* Kit */
+.kitgrp { display: grid; gap: 0; }
+.kititem { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; padding: 12px 0; border-top: 1px solid var(--line); align-items: start; }
+.kititem:first-child { border-top: 0; }
+.kititem input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--accent); }
+.kititem .nm { font-weight: 700; }
+.kititem .why { font-size: .9rem; color: var(--ink-2); }
+.kititem .where { font-size: .84rem; color: var(--ink-3); margin-top: 2px; }
+.kititem .price { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kititem.done .nm { text-decoration: line-through; color: var(--ink-3); }
+.tag { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--warn); margin-left: 6px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+</style>
+
+<header class="topbar">
+  <div class="brand">
+    <h1>Roland's Home OT</h1>
+    <p id="weekline">Term 4 home programme</p>
+  </div>
+  <button class="iconbtn" id="timerBtn" type="button" aria-label="Open timer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6M12 2v3"/></svg>
+    Timer
+  </button>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <ul>
+    <li><button type="button" data-tab="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Today</button></li>
+    <li><button type="button" data-tab="activities"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Activities</button></li>
+    <li><button type="button" data-tab="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13 7l4 4"/></svg>Log</button></li>
+    <li><button type="button" data-tab="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/></svg>Progress</button></li>
+    <li><button type="button" data-tab="kit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Kit</button></li>
+    <li><button type="button" data-tab="guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h5z"/></svg>Guide</button></li>
+  </ul>
+</nav>
+
+<main>
+  <div id="statusBanner" hidden></div>
+  <section class="view" id="view-today" aria-label="Today"></section>
+  <section class="view" id="view-activities" aria-label="Activities" hidden></section>
+  <section class="view" id="view-log" aria-label="Log" hidden></section>
+  <section class="view" id="view-progress" aria-label="Progress" hidden></section>
+  <section class="view" id="view-kit" aria-label="Kit" hidden></section>
+  <section class="view guide" id="view-guide" aria-label="Guide" hidden></section>
+</main>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheet">
+    <div class="sheet-head">
+      <h2 id="sheetTitle">Activity</h2>
+      <button class="closebtn" type="button" id="sheetClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+
+<script>
+/*DATA-START*/
+const DATA = {
+  child: { name: "Roland", born: "2021-10-08", hand: "left", school: "Huppelland Pre-Primêr", ot: "Simóne Vorster (Success Therapy Centre)" },
+  programme: { start: "2026-10-05", weeks: 9, checkinWeeks: [1, 3, 5, 7, 9], sessionsPerWeek: 5, minutes: 20 },
+  phases: [
+    { from: 1, to: 2, name: "Settle in", tip: "Learn the routine together. Use the standard version of each activity and keep it fun. Do the baseline check-in on Friday of week 1." },
+    { from: 3, to: 6, name: "Build", tip: "Move an activity to its 'Harder' version once he has managed it well 2 sessions in a row. Change one thing at a time, and vary the paper, tools and surfaces." },
+    { from: 7, to: 9, name: "Stretch", tip: "Push gently towards the goals: longer holds, eyes-closed balance, curved cutting, small colouring. The final check-in in week 9 goes to the OT." }
+  ],
+  goals: {
+    body: { name: "Strong body", sub: "Core strength, posture and body awareness", ot: "Postural control & body awareness" },
+    balance: { name: "Balance", sub: "Standing on one leg, eyes open and closed", ot: "Postural control & body awareness" },
+    twohands: { name: "Two hands", sub: "Both sides working together, crossing the middle", ot: "Bilateral integration" },
+    hands: { name: "Strong hands", sub: "Finger strength and staying power", ot: "Fine motor" },
+    scissors: { name: "Scissors", sub: "Thumbs up, helper hand turns the paper", ot: "Fine motor" },
+    pencil: { name: "Pencil", sub: "Grip, control, colouring and shapes", ot: "Fine motor & visual perception" }
+  },
+  otRatings: [
+    { area: "Postural control & body awareness", may: 3, sep: 4 },
+    { area: "Bilateral integration", may: 3, sep: 4 },
+    { area: "Fine motor & visual perception", may: 2, sep: 3 }
+  ],
+  otGoals: [
+    { g: "balance", goal: "Balance on each leg for 10 seconds with eyes closed.", now: "Eyes open: 8 s on the right, 6 s on the left. He was hesitant to close his eyes. (May: 3 s eyes closed.)" },
+    { g: "body", goal: "Hold the full-body flexion 'egg' for 15 seconds.", now: "10 s (was 8 s in May)." },
+    { g: "body", goal: "Sit upright at a table for 15–20 minutes without propping his head on his right hand.", now: "Postural endurance still low; neck tires." },
+    { g: "twohands", goal: "Cross the midline at the table without swapping the crayon to the other hand.", now: "Mostly crosses, with effort. Swaps hands about 20% of the time; more consistent with his left." },
+    { g: "twohands", goal: "10 smooth star jumps, then smooth hopscotch (legs open and closed).", now: "10 star jumps achieved (speed varies). Hopscotch is next." },
+    { g: "scissors", goal: "Cut on straight lines with thumb facing up; helper hand feeds and turns the paper.", now: "Straight lines improved; curves need refining; needs reminders to turn the paper instead of lifting his left shoulder." },
+    { g: "pencil", goal: "Three-point (tripod) grasp with an open web space, not a thumb wrapped round the crayon.", now: "Aware of a better grip, but needs prompting." },
+    { g: "pencil", goal: "Colour without switching hands; more control moving the pencil from point to point.", now: "Low finger endurance; not keen to colour for long. Still learning pencil control." },
+    { g: "pencil", goal: "Copy shapes at his age level (was at about a 4-year level).", now: "Next, in order: square, diagonal lines, X, triangle." }
+  ],
+  otPoints: {
+    balOpenR: [{ d: "2026-09-28", v: 8, ot: true }],
+    balOpenL: [{ d: "2026-09-28", v: 6, ot: true }],
+    balClosedR: [{ d: "2026-05-11", v: 3, ot: true }],
+    balClosedL: [{ d: "2026-05-11", v: 3, ot: true }],
+    egg: [{ d: "2026-05-11", v: 8, ot: true }, { d: "2026-09-28", v: 10, ot: true }]
+  },
+  session: [
+    { key: "warm", label: "Warm-up", min: 2, note: "Wake up the body with heavy work before sitting down." },
+    { key: "body", label: "Body", min: 6, note: "Core, balance or two-sided movement." },
+    { key: "hands", label: "Hands", min: 3, note: "A quick finger warm-up. Keep it short: the table task is the real practice." },
+    { key: "table", label: "Table", min: 8, note: "Cutting, pencil control or colouring. Check his set-up first." },
+    { key: "finish", label: "Finish", min: 1, note: "He picks a favourite to repeat, then a sticker. Then you log the session (2 minutes)." }
+  ],
+  plan: [
+    { day: "Monday", theme: "Strong body + scissors", blocks: { warm: ["b-heavy", "b-animal"], body: ["b-egg", "b-superman", "b-prone-ball"], hands: ["h-dough", "h-pegs"], table: ["s-curves", "s-straight", "s-shapes"] } },
+    { day: "Tuesday", theme: "Crossing the middle + pencil control", blocks: { warm: ["th-crosscrawl", "b-heavy"], body: ["th-reach", "th-lazy8", "th-ballpass"], hands: ["h-pegs", "h-tongs"], table: ["p-dots", "p-mazes", "p-vertical"] } },
+    { day: "Wednesday", theme: "Balance + colouring stamina", blocks: { warm: ["b-animal", "b-heavy"], body: ["bal-flamingo", "bal-sleepy", "bal-beam", "bal-statues"], hands: ["h-tongs", "h-hunt"], table: ["p-colour", "p-paint", "p-vertical"] } },
+    { day: "Thursday", theme: "Two hands together + scissors", blocks: { warm: ["th-starjumps", "th-crosscrawl"], body: ["th-hopscotch", "th-balloon", "th-beanbag"], hands: ["h-geoboard", "h-lace"], table: ["s-shapes", "s-snip", "s-curves"] } },
+    { day: "Friday", theme: "Fun Friday: obstacle course + drawing", blocks: { warm: ["b-obstacle", "b-animal"], body: ["b-kneel", "b-ball", "bal-stones"], hands: ["h-coins", "h-hammer"], table: ["p-draw", "p-shapes", "p-vertical"] } }
+  ],
+  weekend: [
+    "Park: monkey bars, climbing frames, pumping his legs on the swing, slides.",
+    "Swimming, riding a bike or scooter, kicking and catching a ball.",
+    "Baking: stirring, rolling dough, cutting soft food with a butter knife, cracking eggs.",
+    "Garden: digging, watering with a spray bottle or watering can, pulling weeds.",
+    "Bath time: squeeze sponges, squirt toys, draw on the tiles with bath crayons or foam.",
+    "Games with small pieces: Pick-up sticks, Jenga, Connect 4, Operation, Lego."
+  ],
+  activities: [
+    { id: "b-egg", g: "body", name: "Egg hold (rocket countdown)", why: "Builds the front core muscles he needs to sit tall. OT goal: 15 seconds.",
+      steps: ["Lie on his back on a rug.", "Hug his knees, tuck his chin to his chest and lift his head and shoulders off the floor: a tight little egg.", "Hold while you count down from 10 like a rocket. Shout 'blast off!' and relax.", "Rest as long as the hold, then go again."],
+      say: "Chin to chest, tight little egg!", easier: "Let him rock gently in the egg for 5 rocks, or hold with your hand behind his head.", harder: "Arms crossed on his chest, then a 'banana boat' with arms and legs stretched out just off the floor.",
+      dose: "3–5 holds. Add 2–3 s only after 2 sessions in a row with good form.", kit: "Rug or mat", img: "", time: true },
+    { id: "b-superman", g: "body", name: "Superman / aeroplane", why: "Strengthens the back and neck muscles that stop him slumping and propping his head.",
+      steps: ["Lie on his tummy.", "Lift arms, head, chest and legs together, eyes looking at the floor just ahead.", "'Fly' to a place he chooses while you count.", "Land, rest, fly again."],
+      say: "Fly to Cape Town! Arms up, legs up!", easier: "Lift arms and head only, then legs only.", harder: "Hold a beanbag in his hands, or turn his head slowly side to side while flying.",
+      dose: "3–5 holds of 5 → 15 s.", kit: "Rug or mat", img: "", time: true },
+    { id: "b-prone-ball", g: "body", name: "Ball walk-outs", why: "Weight through the arms builds shoulder stability for pencil control.",
+      steps: ["He lies tummy-down over a gym ball.", "He walks forward on his hands until the ball is under his thighs.", "He picks up a toy or puzzle piece and drops it in a bucket.", "Walks back, collects the next one."],
+      say: "Strong arms, straight back.", easier: "Ball stays under his tummy; you hold his hips.", harder: "Walk further out so the ball is under his knees; reach to the sides.",
+      dose: "5–10 items.", kit: "Gym ball (55 cm) or a firm ottoman", img: "img/prone-ball.jpg", cap: "At OT: reaching over the ball to collect small toys." },
+    { id: "b-prone", g: "body", name: "Tummy-time play", why: "Lying on elbows builds neck and shoulder strength without him noticing.",
+      steps: ["He lies on his tummy propped on his elbows.", "Do a puzzle, Lego, a book or drawing on a clipboard on the floor.", "Use this for TV or story time too."],
+      say: "Elbows under your shoulders.", easier: "Pillow under his chest.", harder: "No pillow; reach out with one arm to place pieces.",
+      dose: "5–10 minutes a day.", kit: "Clipboard, puzzle", img: "img/prone-tongs.jpg", cap: "At OT: on his tummy on the swing, picking up pompoms with tongs." },
+    { id: "b-animal", g: "body", name: "Animal walk relay", why: "Heavy work for arms, shoulders and core; a great warm-up before table work.",
+      steps: ["Set up a start and finish line in the passage or garden.", "Bear walk (hands and feet, bottom up), crab walk (tummy up), frog jumps, wheelbarrow.", "Carry a beanbag or puzzle piece across each time to build a picture at the end."],
+      say: "Big strong bear!", easier: "Short distance; wheelbarrow held at his hips or thighs.", harder: "Wheelbarrow held at his knees; crab walk with a beanbag on his tummy; walk on grass or up a slope.",
+      dose: "3–4 lengths of about 5 m.", kit: "None (beanbag optional)", img: "" },
+    { id: "b-heavy", g: "body", name: "Heavy-work helper", why: "Pushing, pulling and carrying tell the body where it is, and help him feel calm and alert.",
+      steps: ["Pick one job: wall push-ups, pushing a laundry basket of books, carrying the shopping, towel tug-of-war.", "Do it for 2–3 minutes.", "Finish with 10 wall push-ups: 'push the wall over'."],
+      say: "Push the wall over!", easier: "Lighter loads.", harder: "Heavier basket; chair push-ups (hands on seat, lift his bottom, hold 5 s).",
+      dose: "2–3 minutes before every table session.", kit: "Household items", img: "" },
+    { id: "b-kneel", g: "body", name: "Tall-kneeling station", why: "Kneeling up straight trains the hips and trunk to hold him upright.",
+      steps: ["He kneels tall at the coffee table or sofa: hips straight, not sitting back on his heels.", "Play a game there: post coins into a piggy bank, stickers, a puzzle.", "Swap to half-kneeling (one knee up) halfway."],
+      say: "Tall like a tree.", easier: "Hands may rest on the sofa.", harder: "Kneel on a pillow; tap a balloon with nothing to hold on to.",
+      dose: "3–5 minutes.", kit: "Cushion for his knees, coins and a piggy bank", img: "img/tall-kneel-coins.jpg", cap: "At OT: tall-kneeling and posting coins." },
+    { id: "b-ball", g: "body", name: "Ball sitting and reaching", why: "Sitting on a moving ball makes the core work while he reaches and turns.",
+      steps: ["He sits on a gym ball, feet flat, knees bent at 90°.", "Stick sticky notes or stickers on a window or wall at different heights and sides.", "He reaches, peels them off and puts them in a jar."],
+      say: "Feet flat, sit tall.", easier: "You hold his hips; use a wobble cushion on a chair instead.", harder: "Lift one foot; reach across his body to the far side.",
+      dose: "3–5 minutes.", kit: "Gym ball or wobble cushion, sticky notes", img: "img/ball-window.jpg", cap: "At OT: on the ball, collecting small toys from the window." },
+    { id: "b-obstacle", g: "body", name: "Obstacle course", why: "Combines crawling, balance, jumping and heavy work in one game he plans himself.",
+      steps: ["Build a loop: crawl under chairs, step on cushion stones, bear-walk, walk a tape line.", "Finish with a 5-second egg hold at the end.", "Let him redesign it for round two."],
+      say: "Your turn to be the boss of the course.", easier: "Fewer stations, more space.", harder: "Carry a beanbag on his head, or add a one-leg stop.",
+      dose: "3–4 rounds.", kit: "Cushions, chairs, masking tape, blanket", img: "img/beanbag-throw.jpg", cap: "At OT: kneeling on the platform swing and throwing beanbags at skittles." },
+    { id: "b-reflex", g: "body", name: "Crawl and cat-cow", why: "Movement play the OT linked to his reflex goal. Treat it as general motor play: the research is weak.",
+      steps: ["Lizard crawl: commando crawl on his tummy, head turning to the side of the bending arm.", "On hands and knees, slowly turn his head left and right with elbows straight.", "Cat-cow: look up and dip the back, look down and round the back. Then rock back to his heels and forward."],
+      say: "Slow, like a sleepy cat.", easier: "Short distances, 3 reps.", harder: "Hold each position 5 s; lift one arm in cat-cow.",
+      dose: "3–5 minutes, 8–10 reps.", kit: "Rug", img: "" },
+    { id: "bal-flamingo", g: "balance", name: "Flamingo count", why: "Builds the standing balance he needs. Left leg first: it is the weaker side (6 s vs 8 s).",
+      steps: ["Barefoot, hands on hips, eyes on a sticker on the wall.", "Lift one foot and count out loud together.", "Take turns: you do it too.", "Swap legs. Best of 3 tries."],
+      say: "Eyes on the sticker, still as a flamingo.", easier: "One fingertip on the wall.", harder: "Stand on a folded towel or cushion, or catch a balloon while balancing.",
+      dose: "3–5 tries per leg.", kit: "Sticker on the wall", img: "", time: true },
+    { id: "bal-sleepy", g: "balance", name: "Sleepy flamingo (eyes closed)", why: "The OT goal is 10 s per leg with eyes closed. He was hesitant, so build trust step by step.",
+      steps: ["Start with eyes closed on two feet for 10 s.", "Then on one leg with your hands hovering at his hips.", "Count out loud so he knows how long is left: 2 s, 3 s, then 5 s.", "Step down your support: hold his hand → one finger → hands hovering → no help."],
+      say: "Sleepy flamingo, I've got you.", easier: "Look up at the ceiling instead of closing his eyes.", harder: "Eyes closed for longer; later on a towel.",
+      dose: "3 tries per leg, only after a warm-up. Stand in a corner or next to the sofa.", kit: "Clear floor, soft surface nearby", img: "", time: true },
+    { id: "bal-statues", g: "balance", name: "Freeze dance", why: "Balance practice that feels like a party.",
+      steps: ["Play music and dance.", "When the music stops he freezes: two feet → tiptoes → one leg.", "Call out which leg: 'left flamingo!'"],
+      say: "Freeze! Left leg up!", easier: "Freeze on two feet.", harder: "Freeze on one leg with eyes closed.",
+      dose: "5 minutes.", kit: "Music", img: "" },
+    { id: "bal-beam", g: "balance", name: "Tightrope walk", why: "Balance while moving, plus body awareness of where his feet are.",
+      steps: ["Put a 2–3 m line of masking tape on the floor (or a plank).", "Walk forwards heel-to-toe, then backwards, then sideways.", "Stop halfway and stand on one leg."],
+      say: "Heel touches toe.", easier: "Wide tape, normal steps.", harder: "Beanbag on his head, step over toys on the line, or use a plank.",
+      dose: "5–10 lengths.", kit: "Masking tape or a plank", img: "" },
+    { id: "bal-stones", g: "balance", name: "Floor is lava", why: "Jumping and landing on small targets trains balance and control.",
+      steps: ["Lay cushions or paper plates as stepping stones.", "He steps or jumps across without touching the 'lava'.", "Add a hop between some stones."],
+      say: "Land like a cat, quiet feet.", easier: "Stones close together and firm.", harder: "Bigger gaps, soft cushions, hop on one foot.",
+      dose: "3–5 rounds.", kit: "Cushions or paper plates", img: "" },
+    { id: "bal-hop", g: "balance", name: "Hop count and sock challenge", why: "Hopping and dressing on one leg are everyday balance tests.",
+      steps: ["Hop on one foot, counting: 5 hops, then 10. Each foot.", "Put on socks and shoes standing up."],
+      say: "Bounce, bounce, bounce!", easier: "Lean on the wall to dress.", harder: "Hop forwards and backwards over a line.",
+      dose: "Daily when dressing.", kit: "None", img: "" },
+    { id: "th-hopscotch", g: "twohands", name: "Hopscotch", why: "The OT's next bilateral goal after star jumps.",
+      steps: ["Step 1: on the spot, jump feet together and apart to a rhythm: 'close, open'.", "Step 2: chalk or tape a grid of single and double squares.", "Step 3: the full game, hopping in singles and landing open in doubles."],
+      say: "Close, open, close, open!", easier: "Two-foot jumps only; you jump beside him.", harder: "Pick up a stone while on one leg; go faster.",
+      dose: "3–5 rounds.", kit: "Chalk or masking tape", img: "" },
+    { id: "th-starjumps", g: "twohands", name: "Star jumps", why: "He can do 10 now. Keep it smooth and steady, then add arms.",
+      steps: ["10 star jumps with legs only to a count.", "Then add arms in time with the legs.", "Try to music."],
+      say: "Out, in, out, in.", easier: "Arms only, then legs only.", harder: "Cross jacks (legs cross in front), or 3 sets of 10.",
+      dose: "3 × 5–10.", kit: "None", img: "" },
+    { id: "th-crosscrawl", g: "twohands", name: "Cross-crawl march", why: "Hand to opposite knee gets both sides of the body talking across the middle.",
+      steps: ["March on the spot, touching right hand to left knee, left hand to right knee.", "Then elbow to opposite knee.", "Then hand to opposite foot behind his back."],
+      say: "Hand to the other knee.", easier: "Go slowly; you mirror him.", harder: "Faster, to a song.",
+      dose: "1–2 minutes (10–20 touches).", kit: "Music", img: "" },
+    { id: "th-reach", g: "twohands", name: "Cross-over sticker hunt", why: "Reaching across his body and turning his trunk: what the OT asked for.",
+      steps: ["He sits cross-legged or kneels tall.", "Put stickers on his right arm and leg, or toys on his right side.", "He collects them with his LEFT hand and sticks them on a board on his left side."],
+      say: "Left hand goes on a trip.", easier: "Items close to his body.", harder: "Items further away and behind him; you pass items from behind his back.",
+      dose: "10–20 items.", kit: "Stickers, small toys", img: "" },
+    { id: "th-lazy8", g: "twohands", name: "Lazy-8 racetrack", why: "A sideways 8 crosses the middle every lap and trains smooth pencil control.",
+      steps: ["Draw a big sideways 8 on paper taped to the wall, a chalkboard or a window, centred in front of him.", "He drives a toy car round it, then traces with chalk or crayon.", "Left hand, right hand, then both hands together."],
+      say: "Stay on the road.", easier: "Trace over a thick line.", harder: "Draw it freely; make it smaller.",
+      dose: "5–10 laps.", kit: "Chalk, crayon, toy car", img: "img/chalkboard.jpg", cap: "At OT: big chalk drawings on a wall chalkboard." },
+    { id: "th-ballpass", g: "twohands", name: "Ball pass and twist", why: "Trunk rotation, the second half of the OT's midline advice.",
+      steps: ["Pass a ball around his waist, over his head and under his legs.", "Sit back to back with him and pass the ball to the side, twisting.", "Windmills: feet apart, touch hand to opposite foot."],
+      say: "Twist and pass.", easier: "Big ball, slow.", harder: "Smaller ball, faster, count passes.",
+      dose: "10 passes each way.", kit: "Ball", img: "" },
+    { id: "th-balloon", g: "twohands", name: "Balloon tennis", why: "Eye-hand coordination and taking turns between hands.",
+      steps: ["Keep a balloon in the air with a racquet or paper-plate paddle.", "Then strictly alternate hands.", "Try it kneeling."],
+      say: "Left, right, left!", easier: "Any hand, any time.", harder: "Two hands on a pool noodle; count hits.",
+      dose: "2–3 minutes.", kit: "Balloon, kids' racquet or paper plate", img: "img/racquet.jpg", cap: "At OT: hitting a hanging ball with a racquet." },
+    { id: "th-beanbag", g: "twohands", name: "Beanbag target throw", why: "Aiming and throwing across his body.",
+      steps: ["Set up skittles, bottles or a bucket.", "He kneels and throws beanbags at the targets.", "Alternate hands; throw across his body."],
+      say: "Look, aim, throw.", easier: "Closer and bigger targets.", harder: "Further away; throw while standing on one leg.",
+      dose: "10 throws.", kit: "Beanbags, skittles or bottles", img: "img/beanbag-throw.jpg", cap: "At OT: throwing beanbags at skittles." },
+    { id: "th-scooter", g: "twohands", name: "Scooter board", why: "Both arms working together while the core holds him up.",
+      steps: ["He sits or lies on his tummy on the scooter board.", "Pushes with both hands to collect beanbags across the room.", "Or pulls himself along a rope tied to a table leg."],
+      say: "Both hands push together.", easier: "Sitting, short distance.", harder: "Lying on his tummy; pulling hand over hand.",
+      dose: "5 minutes.", kit: "Scooter board (nice-to-have)", img: "img/scooter-board.jpg", cap: "At OT: kneeling on a scooter board." },
+    { id: "th-kitchen", g: "twohands", name: "Two-hand kitchen jobs", why: "Real jobs where one hand holds and the other works.",
+      steps: ["Roll dough with a rolling pin.", "Pour from a jug into a cup he holds.", "Stir while holding the bowl; spread butter while holding the bread; open jars."],
+      say: "Helper hand holds, busy hand works.", easier: "Small amounts, big cups.", harder: "Pour to a line; open tight lids.",
+      dose: "Any day.", kit: "Kitchen", img: "" },
+    { id: "h-dough", g: "hands", name: "Playdough gym", why: "Strengthens the small muscles in the hand, so colouring lasts longer.",
+      steps: ["Roll tiny balls between thumb, pointer and middle fingertips.", "Roll snakes, pinch pots, poke holes with each finger.", "Hide beads or coins inside and dig them out.", "Snip the snakes with his scissors."],
+      say: "Use your fingertips.", easier: "Soft dough.", harder: "Firmer dough or therapy putty; smaller beads.",
+      dose: "3–5 minutes.", kit: "Play-Doh or therapy putty, beads", img: "" },
+    { id: "h-pegs", g: "hands", name: "Peg it on", why: "Pinching pegs builds the thumb–finger pinch used for a pencil.",
+      steps: ["Clip pegs onto a paper plate, box rim or card.", "Match colours or numbers.", "Use thumb and pointer finger, then thumb and middle finger."],
+      say: "Pinch with your pointer and thumb.", easier: "Loose pegs.", harder: "Stiff pegs; pick up pompoms with a peg.",
+      dose: "10–20 pegs.", kit: "Wooden pegs", img: "" },
+    { id: "h-tongs", g: "hands", name: "Tongs and tweezer transfer", why: "Squeezing tweezers builds pinch strength; holding them like a pencil practises the grip.",
+      steps: ["Fill a tray with rice or beans and hide pompoms or marbles.", "He picks them out with tongs or tweezers and drops them in a bucket or ice-cube tray.", "Hold the tweezers like a pencil."],
+      say: "Hold them like your crayon.", easier: "Big tongs, big pompoms.", harder: "Small tweezers, beans or cereal; beat a 1-minute timer.",
+      dose: "2–3 minutes.", kit: "Tongs or tweezers, rice tray, pompoms", img: "img/rice-tongs.jpg", cap: "At OT: tongs in a rice tray." },
+    { id: "h-geoboard", g: "hands", name: "Geoboard patterns", why: "Stretching bands strengthens fingers; copying patterns trains seeing shapes.",
+      steps: ["Put rubber bands on the geoboard pegs.", "Copy a pattern card.", "Make his own shape for you to copy."],
+      say: "Stretch and hook.", easier: "Free designs with big bands.", harder: "Copy harder cards; small bands.",
+      dose: "5 minutes.", kit: "Geoboard and bands", img: "img/geoboard.jpg", cap: "At OT: copying a pattern card on a geoboard, with the visual timer." },
+    { id: "h-spray", g: "hands", name: "Spray-bottle jobs", why: "Squeezing a trigger builds strength in the pointer and middle fingers.",
+      steps: ["Water the plants, spray chalk drawings off the paving, or knock ping-pong balls off a ledge.", "Use two fingers on the trigger."],
+      say: "Two fingers squeeze.", easier: "Big trigger, whole hand.", harder: "Small trigger, small targets.",
+      dose: "2–3 minutes.", kit: "Spray bottle", img: "" },
+    { id: "h-lace", g: "hands", name: "Punch and lace", why: "Hole punching builds strength; lacing gets two hands working together.",
+      steps: ["Punch holes around a paper plate or a coloured picture.", "Lace wool or a shoelace through the holes.", "Or thread beads on a lace or pipe cleaner."],
+      say: "In and out, like sewing.", easier: "Big beads on a pipe cleaner.", harder: "Small beads; follow a colour pattern.",
+      dose: "5 minutes.", kit: "Hole punch, laces, beads", img: "img/lacing.jpg", cap: "At OT: lacing a starfish card." },
+    { id: "h-coins", g: "hands", name: "Squirrel stash (coins)", why: "Moving coins from palm to fingertips in one hand: a key skill for handling a pencil.",
+      steps: ["He picks up coins one at a time and hides them in his left palm.", "Then feeds them one by one into a piggy bank, using only that hand.", "Flip a coin over with fingertips, then post it."],
+      say: "Squirrel hides the nuts.", easier: "Two big buttons.", harder: "5 or more small coins.",
+      dose: "3 rounds.", kit: "Coins, piggy bank", img: "img/tall-kneel-coins.jpg", cap: "At OT: posting coins while tall-kneeling." },
+    { id: "h-hammer", g: "hands", name: "Hammer and golf tees", why: "Helper hand holds, busy hand taps: strength and two-hand teamwork.",
+      steps: ["Push golf tees into a polystyrene block, cardboard box or thick playdough.", "Tap them in with a toy hammer.", "Or use a tap-tap shapes kit."],
+      say: "Hold with your fingertips, tap gently.", easier: "Tees pre-started.", harder: "Pull them out with his fingertips; make a pattern.",
+      dose: "5 minutes.", kit: "Golf tees, toy hammer, polystyrene", img: "img/hammer-shapes.jpg", cap: "At OT: a tap-tap shapes kit with hammer and cork board." },
+    { id: "h-hunt", g: "hands", name: "Sensory treasure hunt", why: "Finding small things in foam, rice or beans uses fingertips and finger isolation.",
+      steps: ["Hide small toys in shaving foam, rice or dry beans.", "He finds them with his fingers only.", "Sort them into an ice-cube tray."],
+      say: "Detective fingers.", easier: "Bigger toys.", harder: "Tiny items; use tweezers.",
+      dose: "5 minutes.", kit: "Shaving foam, rice or beans, small toys", img: "img/shaving-foam.jpg", cap: "At OT: treasure hunt in shaving foam, sitting on a peanut ball." },
+    { id: "h-tear", g: "hands", name: "Tear and stick collage", why: "Tearing small pieces uses both hands and the fingertip pinch.",
+      steps: ["Tear coloured paper into strips, then small pieces.", "Glue them inside an outline to make a picture.", "Peel and stick stickers too."],
+      say: "Thumbs on top, tear small.", easier: "Thin paper, big pieces.", harder: "Card; tiny pieces; small outline.",
+      dose: "5–10 minutes.", kit: "Coloured paper, glue stick, stickers", img: "img/paper-strips.jpg", cap: "At OT: a paper craft with strips." },
+    { id: "s-snip", g: "scissors", name: "Snip snip", why: "Short, single snips build the open-shut action and confidence.",
+      steps: ["Snip playdough snakes into pieces.", "Snip straws into 'beads' to thread later.", "Snip card strips 2 cm wide into confetti."],
+      say: "Thumbs up! Open, shut.", easier: "Playdough, then straws.", harder: "Wider strips that need two snips.",
+      dose: "20 snips.", kit: "Left-handed scissors, playdough, straws, card", img: "" },
+    { id: "s-straight", g: "scissors", name: "Road cutting", why: "Straight lines first, with the thumb up and the helper hand holding.",
+      steps: ["Draw a thick 1 cm 'road' on card.", "He cuts down the middle of the road.", "Helper hand holds the card at the edge, thumb on top.", "Progress: 10 cm long → across an A4 page; thick → thin lines."],
+      say: "Thumbs up, stay on the road.", easier: "Card instead of paper; shorter roads.", harder: "Thinner lines, ordinary paper, longer lines.",
+      dose: "3–5 lines.", kit: "Left-handed scissors, card, thick marker", img: "" },
+    { id: "s-curves", g: "scissors", name: "Curvy roads", why: "Curves are his next step. The helper hand must turn the paper, not his shoulder.",
+      steps: ["Draw gentle waves, then zigzag mountains, then a big circle.", "His scissor hand stays thumbs-up with the elbow at his side.", "His helper hand (right) turns the paper as he goes.", "Lefties cut circles clockwise: draw arrows to show the way."],
+      say: "Helper hand turns the paper.", easier: "Wide curves on card.", harder: "Tighter curves, smaller circles, thin paper.",
+      dose: "3–5 lines.", kit: "Left-handed scissors, card", img: "img/cutting-starfish.jpg", cap: "At OT: cutting out a starfish." },
+    { id: "s-shapes", g: "scissors", name: "Cut and make", why: "Cutting with a purpose: a picture or craft to keep.",
+      steps: ["Cut a big square, triangle and circle from card.", "Glue them into a picture: house, rocket, robot.", "Later: cut pictures out of catalogues or colouring sheets."],
+      say: "Turn the paper, not your body.", easier: "Bigger shapes, wide border.", harder: "Smaller shapes, cut right on the line.",
+      dose: "1 craft.", kit: "Left-handed scissors, card, glue", img: "img/cut-paste-house.jpg", cap: "At OT: a cut-and-paste house picture." },
+    { id: "p-dots", g: "pencil", name: "Dot-to-dot", why: "The OT's top tip for getting him keen to draw. Moving point to point builds pencil control.",
+      steps: ["Start with a 1–10 dot-to-dot with big dots.", "Or draw a simple picture in dots for him (a house, a car, a fish).", "He joins them, then colours it in."],
+      say: "Pinch the tip, go dot to dot.", easier: "Fewer dots, close together.", harder: "1–20, then 1–50; smaller dots.",
+      dose: "1–2 sheets.", kit: "Dot-to-dot book, short crayon or pencil", img: "img/dot-to-dot.jpg", cap: "At OT: a crab dot-to-dot." },
+    { id: "p-mazes", g: "pencil", name: "Mazes and rainbow tracing", why: "Stopping and steering inside a path is pencil control.",
+      steps: ["Wide mazes first: drive a toy car through, then trace with a crayon.", "Rainbow trace: go over the same line 3–5 times in different colours.", "Line-matching puzzles (like the OT's 'focus challenge')."],
+      say: "Slow car, stay inside.", easier: "2 cm wide paths.", harder: "5 mm paths, longer mazes.",
+      dose: "1–3 mazes.", kit: "Maze book, crayons", img: "img/rainbow-trace.jpg", cap: "At OT: rainbow tracing on a clipboard." },
+    { id: "p-vertical", g: "pencil", name: "Draw on the wall", why: "Drawing on an upright surface bends the wrist back and strengthens the shoulder: both help the grip.",
+      steps: ["Tape paper to the wall or fridge at eye level, or use a chalkboard, easel or window markers.", "Big shapes, lazy-8s, roads and houses.", "Then smaller shapes inside a boundary."],
+      say: "Stand tall, small chalk.", easier: "Big strokes, big chalk.", harder: "Small chalk pieces; colour inside shapes.",
+      dose: "5 minutes.", kit: "Chalkboard or easel, chalk, tape", img: "img/chalkboard.jpg", cap: "At OT: drawing on a wall chalkboard." },
+    { id: "p-colour", g: "pencil", name: "Small-picture colouring", why: "Small pictures build finger stamina with a quick win. OT advice.",
+      steps: ["Choose a picture about the size of a playing card, with thick outlines.", "Set the visual timer: 3 minutes, then build to 5 and 8.", "Use broken crayons under 3 cm long.", "If he swaps hands, say calmly 'left hand draws, right hand helps' and hand the crayon back. If he swaps again within a minute, he is tired: stop and move.", "Put the crayon pot on his right so he reaches across his body."],
+      say: "Shake, squeeze, same hand.", easier: "Raised outline (dried glue or a playdough snake) he can feel.", harder: "Smaller areas, mandalas, colour-by-number.",
+      dose: "Start at a length he manages without swapping (2–3 minutes). Add 1 minute after 3 good sessions.", kit: "Small colouring pictures, short crayons, visual timer", img: "img/small-circles.jpg", cap: "At OT: colouring small circles, with the visual timer on the table." },
+    { id: "p-paint", g: "pencil", name: "Paint and dot", why: "A brush or cotton bud needs a fingertip grip and a light touch.",
+      steps: ["Paint rainbow arcs with watercolours.", "Dot-paint with cotton buds inside circles.", "Hold the brush low, near the bristles."],
+      say: "Pinch near the bristles.", easier: "Thick brush, big paper.", harder: "Thin brush, stay inside lines.",
+      dose: "5–10 minutes.", kit: "Watercolours, cotton buds", img: "img/paint-rainbow.jpg", cap: "At OT: painting a rainbow." },
+    { id: "p-draw", g: "pencil", name: "How-to-draw videos", why: "The OT recommends these to make drawing fun. Step-by-step drawing practises shapes and control.",
+      steps: ["Choose a short video, e.g. Art for Kids Hub on YouTube.", "Pause after each step so he can finish it.", "Draw alongside him."],
+      say: "Pause, draw, play.", easier: "Very simple animals and vehicles.", harder: "More detailed drawings, then colour them.",
+      dose: "1 drawing, 10–15 minutes.", kit: "Tablet or laptop, paper, short pencil", img: "img/how-to-draw.jpg", cap: "At OT: a 'draw a dump truck' sheet." },
+    { id: "p-shapes", g: "pencil", name: "Shape of the week", why: "Copying shapes is the OT's visual-motor goal (he was at about a 4-year level).",
+      steps: ["Order: + → square → / and \\ → X → triangle. Say the strokes: square is 'down, across, down, across'.", "Make it big first: finger in shaving foam, chalk on the wall, sticks on the floor.", "Then on paper: you draw it, he copies next to yours (copy, don't trace).", "Turn it into a picture: a square becomes a house."],
+      say: "Start at the top.", easier: "Watch you draw it, then copy straight away.", harder: "Copy from a finished picture; combine shapes into a robot.",
+      dose: "5 shapes.", kit: "Paper, sticks, chalk", img: "img/shape-copying.jpg", cap: "At OT: shape copying. The square and triangle are the ones to work on." },
+    { id: "p-stencils", g: "pencil", name: "Stencils", why: "The helper hand holds the stencil firmly while the busy hand traces.",
+      steps: ["Helper hand presses the stencil flat.", "He traces inside the shape with a short pencil.", "Colour it in."],
+      say: "Helper hand holds it still.", easier: "Big simple stencils.", harder: "Small or detailed stencils.",
+      dose: "3–4 shapes.", kit: "Stencils, short pencil", img: "img/stencils.jpg", cap: "At OT: stencil tracing." }
+  ],
+  cues: [
+    { say: "Pinch the tip and flip", when: "Picking up a pencil or crayon: pinch near the point, flip it back into his hand." },
+    { say: "Show me your O", when: "Open web space: the gap between thumb and pointer finger makes a round O." },
+    { say: "Thumbs up!", when: "Scissors: thumb in the top hole, pointing at the ceiling." },
+    { say: "Helper hand turns the paper", when: "Cutting curves: his right hand turns the paper, not his left shoulder." },
+    { say: "Feet flat, bottom back, sit tall", when: "Before every table task." },
+    { say: "Shake, squeeze, same hand", when: "Hand tired while colouring: a quick hand break instead of swapping hands." },
+    { say: "Chin to chest, tight little egg", when: "Egg hold." },
+    { say: "Eyes on the sticker", when: "Flamingo balance." }
+  ],
+  scissorLadder: [
+    { lvl: "1. Snip", ex: "Playdough, straws, card strips", age: "about 2½–3" },
+    { lvl: "2. Fringe", ex: "Cut a fringe along a strip", age: "about 3" },
+    { lvl: "3. Straight line", ex: "Thick road → thin line", age: "about 3½–4" },
+    { lvl: "4. Curves & corners", ex: "Waves, zigzags, big circle", age: "about 4–4½" },
+    { lvl: "5. Simple shapes", ex: "Square, triangle, circle", age: "about 4½–5" },
+    { lvl: "6. Pictures", ex: "Cut out a printed picture", age: "about 5–6" }
+  ],
+  shapeAges: [
+    { s: "| vertical line", age: "2" }, { s: "— horizontal line", age: "3" }, { s: "O circle", age: "3" },
+    { s: "+ cross", age: "4" }, { s: "□ square", age: "4½" }, { s: "/ \\ diagonals", age: "4½" },
+    { s: "X", age: "5" }, { s: "△ triangle", age: "5¼" }, { s: "◇ diamond", age: "6–8" }
+  ],
+  rules: [
+    { t: "Little and often", d: "About 20 minutes, 5 days a week. In a trial of parent-run OT home programmes, about 17 sessions a month of about 16 minutes worked." },
+    { t: "Body before hands", d: "Always start with movement. Heavy work wakes up the core and shoulders so sitting and pencil work are easier." },
+    { t: "Make it play", d: "Hide the exercise inside a game, story or job. Offer him a choice of 2 or 3 activities, colours or the order." },
+    { t: "Aim for 4 out of 5", d: "He should succeed most of the time. Missing 3 or more out of 10: make it easier. Spot-on 2 sessions in a row: try the harder version." },
+    { t: "One cue, same words", d: "Use the short cue words in this guide, one at a time. Talk about the result ('make the scissors walk on the road'), not his body parts. Get him to say the cue too." },
+    { t: "Feedback: lots, then less", d: "With a new skill, tell him how he did on most tries. Once he has it, every second or third try, then a summary at the end." },
+    { t: "Praise the effort", d: "'You turned the paper with your helper hand!' works better than 'you're so clever'. Specific praise keeps him trying after mistakes." },
+    { t: "Same skill, new look", d: "Once a skill is coming, vary it: different paper, crayons, chalk, a wall, the floor, the garden." },
+    { t: "Stop before he's done", d: "Watch for the tired signs below and switch to a movement break. Always end on a success." },
+    { t: "Set up for a lefty", d: "Left-handed scissors, paper to his left and tilted, light from his right, you on his right." },
+    { t: "Log it", d: "Two minutes after each session. The log is how his parents and the OT see progress." }
+  ],
+  tiredSigns: [
+    "Propping his head on his hand or lying on the table",
+    "Slumping, wriggling off the chair, kneeling on the chair",
+    "Switching the crayon to the other hand",
+    "Grip gets tighter, lines get wobbly, presses very hard or very light",
+    "Rushing, scribbling, silliness or tears"
+  ],
+  callOT: [
+    "Any pain, dizziness or a fall during an exercise",
+    "He refuses or gets very upset for several sessions in a row",
+    "No progress on a goal after about 4 weeks of regular practice",
+    "Before buying a pencil grip or special pencil: the OT said one may help in Grade R and should be monitored",
+    "Before trying to sort out his handwriting letters: shapes come first at this age"
+  ],
+  sneakIns: [
+    "Carry the shopping bags, push the trolley, carry the washing basket.",
+    "Spray-bottle the plants; squeeze the bath sponge; open his own lunch box and yoghurt.",
+    "Tear lettuce, roll pastry, cut banana with a butter knife, stir the batter while holding the bowl.",
+    "Do up his own buttons and zips; put on socks standing on one leg.",
+    "Lie on his tummy to watch TV or read a story.",
+    "Set the table: plates on one side, cutlery reaching across.",
+    "Peel stickers, open pegs, post letters, push coins into the parking machine."
+  ],
+  measures: {
+    balOpenR: { label: "Right leg, eyes open", unit: "s" }, balOpenL: { label: "Left leg, eyes open", unit: "s" },
+    balClosedR: { label: "Right leg, eyes closed", unit: "s" }, balClosedL: { label: "Left leg, eyes closed", unit: "s" },
+    egg: { label: "Egg hold", unit: "s" }, superman: { label: "Superman hold", unit: "s" },
+    sitMin: { label: "Sits upright at the table", unit: "min" }, colourMin: { label: "Colours a small picture", unit: "min" },
+    switches: { label: "Hand switches in 5 min colouring", unit: "×" }
+  },
+  ratings: [
+    { key: "grip", label: "Uses the open-O tripod grip without a reminder" },
+    { key: "helper", label: "Helper hand turns the paper when cutting" },
+    { key: "cutStraight", label: "Cuts on a straight line" },
+    { key: "cutCurve", label: "Cuts on a curved line" },
+    { key: "midline", label: "Crosses the middle without swapping hands" },
+    { key: "hopscotch", label: "Hopscotch, open and close" }
+  ],
+  ratingScale: ["Not yet", "With help", "Mostly", "Easily"],
+  shapes: [
+    { key: "circle", label: "Circle" }, { key: "cross", label: "Cross +" }, { key: "square", label: "Square" },
+    { key: "diag", label: "Diagonals / \\" }, { key: "x", label: "X" }, { key: "triangle", label: "Triangle" }, { key: "diamond", label: "Diamond" }
+  ],
+  kit: [
+    { id: "scissors", grp: "must", name: "Left-handed scissors (true left-handed, blades reversed)", why: "The most important buy. With right-handed or 'both-hands' scissors he can't see the line and the blades push apart.", where: "Takealot: Pelikan Griffix left-handed, about R99. Budget: RGS Group left-hand 135 mm, about R35. Buy 2.", price: 134, q: "Pelikan Griffix scissors left handed" },
+    { id: "putty", grp: "must", name: "Therapy putty (soft) + Play-Doh 4-pack", why: "Hand strengthening: rolling, pinching, hidden beads.", where: "HiTech Therapy online: soft therapy putty about R78. Takealot or Toys R Us: Play-Doh 4-pack about R119.", price: 197, q: "Play-Doh 4 pack" },
+    { id: "tweezers", grp: "must", name: "Fine-motor tool set (tweezers, tongs, dropper)", why: "Pincer strength and practising the pencil grip.", where: "Takealot: Learning Resources Helping Hands Fine Motor Tool Set, about R319. Kitchen tongs work to start.", price: 319, q: "Learning Resources Helping Hands fine motor tool set" },
+    { id: "pegs", grp: "must", name: "Wooden pegs (100)", why: "Pinch strength.", where: "Takealot, Crazy Store or Pick n Pay: about R55–R96.", price: 70, q: "wooden pegs 100" },
+    { id: "geoboard", grp: "must", name: "Geoboard with rubber bands and pattern cards", why: "Finger strength and copying patterns, like at OT.", where: "Takealot: Smartplay geoboard about R95, or TookyToy geoboard set about R229.", price: 95, q: "geoboard rubber bands" },
+    { id: "lacing", grp: "must", name: "Threading beads and laces", why: "Two hands together, eye-hand coordination.", where: "Takealot: RGS Group threading beads (48 pcs) about R75.", price: 75, q: "threading beads laces kids" },
+    { id: "crayons", grp: "must", name: "Short and chunky drawing tools", why: "Short, triangular tools encourage a fingertip grip. Snap crayons in half on purpose.", where: "PNA, CNA, Waltons or Takealot: triangular jumbo wax crayons about R48, Staedtler jumbo beginner pencils about R26, Maped triangular colour pencils about R81, Crayola washable markers about R120, sidewalk chalk about R66, golf pencils about R30.", price: 371, q: "triangular jumbo crayons" },
+    { id: "timer", grp: "must", name: "Visual timer", why: "Same tool the OT uses. He can see how long is left, which helps him keep going. (This page also has a timer.)", where: "Takealot: kids' rainbow visual timer about R198; Time Timer about R450.", price: 198, q: "visual timer kids" },
+    { id: "books", grp: "must", name: "Cutting, maze and dot-to-dot books", why: "Ready-made, graded practice pages.", where: "Takealot, Exclusive Books or PNA: Kumon My First Book of Cutting about R185, Kumon My First Book of Mazes about R140, a dot-to-dot book about R100. Free printables online too.", price: 425, q: "Kumon My First Book of Cutting" },
+    { id: "small", grp: "must", name: "Hole punch, stickers, spray bottle", why: "Hand strength jobs.", where: "Crazy Store, Clicks or PNA: single-hole punch about R27, stickers about R45, spray bottle about R30.", price: 102, q: "single hole punch" },
+    { id: "slant", grp: "must", name: "A4 clipboard + tabletop easel / chalkboard", why: "An angled or upright surface helps a left-hander keep the wrist straight and builds shoulder strength. Clip the clipboard to a lever-arch file for a DIY slant board.", where: "Takealot: A4 masonite clipboard about R31; 2-in-1 whiteboard/chalkboard easel about R269.", price: 300, q: "tabletop easel chalkboard whiteboard kids" },
+    { id: "stool", grp: "must", name: "Footrest (step stool) for the table", why: "Feet flat with hips and knees at 90° gives him a stable base for sitting upright.", where: "Takealot: kids' step stool about R159, or a sturdy box. Full option: kids' table and chair about R800.", price: 159, q: "kids step stool" },
+    { id: "ball", grp: "nice", name: "Gym ball (45–55 cm, anti-burst) + wobble cushion", why: "Core work while sitting and reaching.", where: "Takealot or Sportsmans Warehouse: anti-burst gym ball with pump about R198; balance disc wobble cushion about R219.", price: 417, q: "anti burst gym ball 55cm" },
+    { id: "scooter", grp: "nice", name: "Scooter board", why: "Core and shoulder strength; he loved it at OT.", where: "Tiny Tree Toys (OT-owned SA shop): 40 × 30 cm about R596.", price: 596, q: "scooter board kids" },
+    { id: "beam", grp: "nice", name: "Balance beam or stepping stones", why: "Balance practice. Masking tape on the floor works too.", where: "Takealot: foam balance beam about R349, or stepping stones about R309.", price: 349, q: "foam balance beam kids" },
+    { id: "throw", grp: "nice", name: "Beanbags, cones, balloons, ribbon wand, kids' racquet", why: "Throwing, aiming, balloon tennis, crossing the middle.", where: "Takealot: cones + beanbags + ring toss set about R299; balloons, ribbon wands and racquets from Crazy Store, Game or Sportsmans.", price: 550, q: "bean bags cones ring toss set kids" },
+    { id: "tunnel", grp: "nice", name: "Play tunnel + folding foam mat", why: "Crawling, obstacle courses, a soft landing for balance work.", where: "Takealot: play tunnel about R223; folding foam play mat about R299.", price: 522, q: "kids play tunnel" },
+    { id: "box", grp: "nice", name: "Storage box for the kit", why: "Everything in one place, quick to set out.", where: "Crazy Store, Mr Price Home or Game: clear lidded box about R80–R150.", price: 120, q: "storage box clear lid" },
+    { id: "grip", grp: "ask", name: "Pencil grip or left-handed pencil", why: "Ask the OT first. She said a grip may help in Grade R and should be monitored. The wrong grip can fix a poor grasp in place.", where: "Takealot: Crossover pencil grip x3 about R111; STABILO EASYgraph left-handed pencils about R155–R213.", price: 111, q: "Stabilo EASYgraph left handed" }
+  ],
+  freeKit: ["Kitchen tongs, ice-cube tray, egg boxes", "Rice, dry beans, pasta, cereal", "Shaving foam", "Cotton buds, straws, paper plates", "Old catalogues, cereal boxes (for card)", "Masking tape, glue stick", "Coins and a piggy bank", "Golf tees and a polystyrene block", "Sponges, bubble wrap, balloons", "A cushion pile and a blanket"],
+  suppliers: [
+    { name: "Takealot", url: "https://www.takealot.com", note: "Most items on the list." },
+    { name: "Tiny Tree Toys", url: "https://tinytreetoys.co.za", note: "OT-owned SA shop: scooter boards, balance and fine-motor toys." },
+    { name: "HiTech Therapy", url: "https://hitechtherapyonline.co.za", note: "Theraputty and therapy putty." },
+    { name: "Playing and Learning", url: "https://www.playingandlearning.co.za/collections/occupational-therapy", note: "OT collection, Johannesburg." },
+    { name: "SA Toy Trade", url: "https://satoytrade.co.za", note: "Therapy and teaching aids." }
+  ],
+  sources: [
+    { t: "Novak I, Cusick A, Lannin N. Occupational therapy home programs for cerebral palsy: double-blind, randomized, controlled trial. Pediatrics (2009).", u: "https://researchonline.nd.edu.au/med_article/299" },
+    { t: "Novak I, Berry J. Home program intervention effectiveness evidence. Phys Occup Ther Pediatr (2014).", u: "https://pubmed.ncbi.nlm.nih.gov/25317927/" },
+    { t: "Smits-Engelsman B et al. Efficacy of interventions to improve motor performance in children with DCD: a meta-analysis (2013).", u: "https://pubmed.ncbi.nlm.nih.gov/23106530" },
+    { t: "Sullivan K et al. Motor learning in children: feedback effects on skill acquisition. Phys Ther (2008).", u: "https://pubmed.ncbi.nlm.nih.gov/18339797/" },
+    { t: "Hoy M, Egan M, Feder K. A systematic review of interventions to improve handwriting. Can J Occup Ther (2011).", u: "https://doi.org/10.2182/cjot.2011.78.1.3" },
+    { t: "Schwellnus H et al. Effect of pencil grasp on the speed and legibility of handwriting (2012).", u: "https://experts.mcmaster.ca/scholarly-works/911178" },
+    { t: "Schwellnus H et al. Writing forces associated with four pencil grasp patterns (2013).", u: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3722657" },
+    { t: "Patall E et al. The effects of choice on intrinsic motivation: a meta-analysis (2008).", u: "https://pubmed.ncbi.nlm.nih.gov/18298272/" },
+    { t: "Physiopedia: assessment and exercise in early childhood (egg and superman hold norms).", u: "https://www.physio-pedia.com/Assessment_and_Exercise_Interventions_in_Early_and_Middle_Childhood_Development" },
+    { t: "Single-leg stance in 5-year-olds (2024 study).", u: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11764375/" },
+    { t: "NHS Somerset: pre-writing shapes and ages.", u: "https://www.somersetft.nhs.uk/children-and-young-peoples-therapy-service/pre-writing-activities/" },
+    { t: "Teach Handwriting: paper position for left- and right-handers.", u: "https://www.teachhandwriting.co.uk/paper-position-for-comfortable-handwriting.html" },
+    { t: "West Suffolk NHS: handwriting (left-handers) and sitting posture.", u: "https://www.wsh.nhs.uk/CMS-Documents/Services/Integrated-Community-Paediatric-Services-OT/g.-Handwriting.pdf" },
+    { t: "ABUHB NHS: developing a tripod grasp; left-handed scissors.", u: "https://abuhb.nhs.wales/files/childrens-ot/school-based-occupation/developing-a-tripod-grasp-advice-pdf/" },
+    { t: "Growing Hands-On Kids: scissor skill checklist, ages 2–6.", u: "https://www.growinghandsonkids.com/scissor-skill-development-checklist-for-ages-2-6.html" },
+    { t: "Kid Sense: balance, coordination and pre-writing skills.", u: "https://childdevelopment.com.au/areas-of-concern/writing/writing-readiness-pre-writing-skills/" },
+    { t: "The OT Toolbox: in-hand manipulation.", u: "https://www.theottoolbox.com/in-hand-manipulation-for-functional/" },
+    { t: "Primitive reflex programmes: a review of the evidence.", u: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9301367/" }
+  ]
+};
+/*DATA-END*/
+</script>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const ACT = Object.fromEntries(DATA.activities.map((a) => [a.id, a]));
+  const LS_KEY = "roland-ot-v1";
+  const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+  // ---------- dates ----------
+  const pad = (n) => String(n).padStart(2, "0");
+  const iso = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parse = (s) => { const [y, m, d] = String(s).split("-").map(Number); return new Date(y, (m || 1) - 1, d || 1); };
+  const dayNum = (s) => Math.round(parse(s).getTime() / 864e5);
+  const fmtDate = (s, opts = { weekday: "short", day: "numeric", month: "short" }) => parse(s).toLocaleDateString("en-ZA", opts);
+  const today = () => iso(new Date());
+  const START = DATA.programme.start;
+  function weekOf(s) { return Math.floor((dayNum(s) - dayNum(START)) / 7) + 1; }
+  function weekdayIdx(s) { return (parse(s).getDay() + 6) % 7; } // Mon=0
+  function phaseOf(w) { return DATA.phases.find((p) => w >= p.from && w <= p.to) || null; }
+
+  // ---------- state ----------
+  const S = {
+    tab: "today", day: null, swaps: {}, filter: "all", logMode: "session",
+    sessions: [], checkins: [], kit: {}, mode: "loading", readOnly: false, db: null, pendingDelete: null
+  };
+  const local = {
+    load() { try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch { return {}; } },
+    save(obj) { try { localStorage.setItem(LS_KEY, JSON.stringify(obj)); } catch { /* storage blocked */ } },
+    get(key, dflt) { const o = local.load(); return o[key] ?? dflt; },
+    set(key, val) { const o = local.load(); o[key] = val; local.save(o); }
+  };
+
+  // ---------- storage adapter ----------
+  async function initStore() {
+    let db = null;
+    try { db = window.claude && typeof window.claude.use === "function" ? await window.claude.use("db") : null; } catch { db = null; }
+    if (!db) { useLocal(); return; }
+    S.db = db; S.mode = "db";
+    try {
+      const user = await window.claude.use("user");
+      const can = user ? await user.can("data.write") : null;
+      if (can === false) S.readOnly = true;
+    } catch { /* keep inputs; a refused write decides */ }
+    const onErr = (e) => { if (e && (e.code === "revoked" || e.code === "not_granted")) { S.readOnly = true; renderBanner(); } };
+    db.collection("sessions").orderBy("date", "desc").limit(500).onSnapshot((snap) => {
+      S.sessions = snap.docs.map((d) => ({ id: d.id, ...d.data() })); refresh();
+    }, onErr);
+    db.collection("checkins").orderBy("date", "desc").limit(200).onSnapshot((snap) => {
+      S.checkins = snap.docs.map((d) => ({ id: d.id, ...d.data() })); refresh();
+    }, onErr);
+    db.collection("kit").onSnapshot((snap) => {
+      const k = {}; snap.docs.forEach((d) => { k[d.id] = !!(d.data() || {}).bought; }); S.kit = k; refresh(["kit"]);
+    }, onErr);
+    renderBanner(); refresh();
+  }
+  function useLocal() {
+    S.mode = "local";
+    S.sessions = local.get("sessions", []); S.checkins = local.get("checkins", []); S.kit = local.get("kit", {});
+    sortAll(); renderBanner(); refresh();
+  }
+  function sortAll() {
+    S.sessions.sort((a, b) => (b.date + (b.createdAt || "")).localeCompare(a.date + (a.createdAt || "")));
+    S.checkins.sort((a, b) => (b.date + (b.createdAt || "")).localeCompare(a.date + (a.createdAt || "")));
+  }
+  async function addEntry(coll, obj) {
+    if (S.mode === "db") {
+      try { await S.db.collection(coll).add(obj); return true; }
+      catch (e) {
+        if (e && e.code === "invalid_argument") { S.readOnly = true; renderBanner(); }
+        toast(e && e.code === "quota_exceeded" ? "The log is full. Delete some old entries and try again." : "Couldn't save. Check your connection and try again.");
+        return false;
+      }
+    }
+    obj.id = "l" + Date.now().toString(36);
+    S[coll].push(obj); sortAll(); local.set(coll, S[coll]); refresh(); return true;
+  }
+  async function deleteEntry(coll, id) {
+    if (S.mode === "db") { try { await S.db.doc(`${coll}/${id}`).delete(); } catch { toast("Couldn't delete that entry."); } return; }
+    S[coll] = S[coll].filter((x) => x.id !== id); local.set(coll, S[coll]); refresh();
+  }
+  async function setKit(id, bought) {
+    S.kit[id] = bought;
+    if (S.mode === "db") { try { await S.db.doc(`kit/${id}`).set({ bought, at: new Date().toISOString() }); } catch { toast("Couldn't save the tick."); } }
+    else local.set("kit", S.kit);
+    render("kit");
+  }
+
+  function renderBanner() {
+    const b = $("#statusBanner");
+    let html = "";
+    if (S.mode === "local") html = `<div class="banner warn"><b>Saved on this device only.</b> Open this page from the link Roland's parents shared (signed in) so the log reaches them. Until then, use "Send on WhatsApp" after each entry.</div>`;
+    else if (S.readOnly) html = `<div class="banner warn"><b>View only.</b> You can read everything but can't save logs. Ask Roland's parents to share this page with you as an <b>Editor</b>. You can still copy each entry to WhatsApp.</div>`;
+    b.innerHTML = html; b.hidden = !html;
+    if (html) b.style.marginBottom = "16px";
+  }
+  let toastTimer;
+  function toast(msg) {
+    let t = $("#toast");
+    if (!t) { t = document.createElement("div"); t.id = "toast"; t.setAttribute("role", "status");
+      t.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;max-width:90vw;box-shadow:var(--shadow)";
+      document.body.appendChild(t); }
+    t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+  }
+
+  // ---------- helpers ----------
+  const goalIdx = (g) => `<span class="idx" data-g="${g}">${esc(DATA.goals[g].name)}</span>`;
+  const photoOr = (a) => a.img ? `<div class="ph"><img src="${a.img}" alt="${esc(a.cap || a.name)}" loading="lazy"></div>` :
+    `<div class="ph none" data-g="${a.g}">${goalIcon(a.g)}</div>`;
+  function goalIcon(g) {
+    const p = {
+      body: '<circle cx="12" cy="5" r="2.5"/><path d="M12 8v7M8 22l4-7 4 7M6 11h12"/>',
+      balance: '<circle cx="12" cy="4.5" r="2.2"/><path d="M12 7v8l-4 6M12 15h-0M5 10h14M12 15l3 2"/>',
+      twohands: '<path d="M7 11V5.5a1.5 1.5 0 0 1 3 0V10M10 9.5V4a1.5 1.5 0 0 1 3 0v6M17 11V6.5a1.5 1.5 0 0 0-3 0V10M7 11c-1.5-1-3 0-2 2l3 5c1 2 3 3 5 3h1c3 0 5-2 5-5v-5"/>',
+      hands: '<path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V11M11 10.5V4a1.5 1.5 0 0 1 3 0v7M14 11V5.5a1.5 1.5 0 0 1 3 0V13M17 9.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-3l-3-5a1.6 1.6 0 0 1 2.6-1.8L8 13"/>',
+      scissors: '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/>',
+      pencil: '<path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13 7l4 4"/>'
+    }[g];
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+  }
+  function planFor(dayIdx) { return dayIdx >= 0 && dayIdx < 5 ? DATA.plan[dayIdx] : null; }
+  function chosen(dayIdx, key) {
+    const p = planFor(dayIdx); if (!p) return null;
+    const list = p.blocks[key]; const pick = (S.swaps[dayIdx] || {})[key];
+    return pick && list.includes(pick) ? pick : list[0];
+  }
+  function isCheckinDay(dateStr) { return weekdayIdx(dateStr) === 4 && DATA.programme.checkinWeeks.includes(weekOf(dateStr)); }
+  function nextCheckin(fromStr) {
+    for (const w of DATA.programme.checkinWeeks) {
+      const fri = new Date(parse(START)); fri.setDate(fri.getDate() + (w - 1) * 7 + 4);
+      if (iso(fri) >= fromStr) return { w, date: iso(fri) };
+    }
+    return null;
+  }
+
+  // ---------- header ----------
+  function renderHeader() {
+    const t = today(); const w = weekOf(t); const W = DATA.programme.weeks;
+    let line;
+    if (w < 1) line = `Starts ${fmtDate(START, { weekday: "long", day: "numeric", month: "long" })}`;
+    else if (w > W) line = `Programme done · holiday maintenance`;
+    else { const ph = phaseOf(w); line = `Week ${w} of ${W} · ${ph ? ph.name : ""} · ${fmtDate(t, { weekday: "long", day: "numeric", month: "long" })}`; }
+    $("#weekline").textContent = line;
+  }
+
+  // ---------- TODAY ----------
+  function renderToday() {
+    const t = today(); const w = Math.max(1, Math.min(weekOf(t), DATA.programme.weeks));
+    const todayIdx = weekdayIdx(t);
+    const di = S.day ?? todayIdx;
+    const plan = planFor(di);
+    const ph = phaseOf(w);
+    const seenGuide = local.get("seenGuide", false);
+    const dateForDi = (() => { const d = parse(t); d.setDate(d.getDate() + (di - todayIdx)); return iso(d); })();
+    let h = "";
+    if (!seenGuide) h += `<div class="banner"><b>New here?</b> Read the Guide first (10 minutes): Roland's goals, the left-handed set-up and the cue words. <button class="btn small ghost" type="button" data-go="guide" style="margin-left:6px">Open the Guide</button></div>`;
+    h += `<div class="daypick" role="group" aria-label="Choose a day">${DAY_NAMES.slice(0, 5).map((d, i) =>
+      `<button class="chip" type="button" data-day="${i}" aria-pressed="${i === di}">${d.slice(0, 3)}${i === todayIdx ? " · today" : ""}</button>`).join("")}
+      <button class="chip" type="button" data-day="5" aria-pressed="${di >= 5}">Weekend</button></div>`;
+    if (!plan) {
+      h += `<div class="hero"><p class="eyebrow">Weekend</p><h2>Family play, no formal session</h2><p class="muted">Movement-rich play still counts. A few ideas:</p></div>
+        <div class="card"><ul class="clean">${DATA.weekend.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+        <div class="card"><h3>Everyday sneak-ins</h3><ul class="clean">${DATA.sneakIns.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+      $("#view-today").innerHTML = h; return;
+    }
+    const check = isCheckinDay(dateForDi);
+    h += `<div class="hero"><p class="eyebrow">${esc(plan.day)} · about ${DATA.programme.minutes} minutes</p><h2>${esc(plan.theme)}</h2>
+      ${ph ? `<p class="muted"><b>${esc(ph.name)} phase.</b> ${esc(ph.tip)}</p>` : ""}</div>`;
+    if (check) h += `<div class="banner"><b>Check-in day (week ${weekOf(dateForDi)}).</b> Swap the Body block for the 10-minute check-in, then do the rest as normal. <button class="btn small" type="button" data-go="log" data-logmode="checkin" style="margin-left:6px">Open check-in</button></div>`;
+    h += `<div class="plan">`;
+    for (const blk of DATA.session) {
+      if (blk.key === "finish") {
+        h += `<div class="block"><div class="when"><b>${blk.min}</b><span>min</span></div><div class="card"><p class="eyebrow">${esc(blk.label)}</p><p>${esc(blk.note)}</p>
+          <div class="row"><button class="btn" type="button" data-go="log" data-logmode="session">Log this session</button></div></div></div>`;
+        continue;
+      }
+      const id = chosen(di, blk.key); const a = ACT[id]; const list = plan.blocks[blk.key];
+      h += `<div class="block"><div class="when"><b>${blk.min}</b><span>min</span></div><div class="tabbed" data-g="${a.g}">${goalIdx(a.g)}<div class="card">
+        <p class="eyebrow">${esc(blk.label)}</p>
+        <button class="actbtn" type="button" data-act="${a.id}"><h3>${esc(a.name)}</h3></button>
+        <p class="muted small">${esc(a.why)}</p>
+        <p class="say">${esc(a.say)}</p>
+        ${list.length > 1 ? `<div class="swap"><span class="small muted">Or:</span>${list.filter((x) => x !== id).map((x) =>
+          `<button class="chip" type="button" data-swap="${x}" data-blk="${blk.key}" data-di="${di}">${esc(ACT[x].name)}</button>`).join("")}</div>` : ""}
+      </div></div></div>`;
+    }
+    h += `</div><div class="row"><button class="btn ghost" type="button" data-timer="${DATA.programme.minutes * 60}">Start a ${DATA.programme.minutes}-minute timer</button></div>`;
+    $("#view-today").innerHTML = h;
+  }
+
+  // ---------- ACTIVITIES ----------
+  function renderActivities() {
+    const f = S.filter;
+    let h = `<div class="hero"><p class="eyebrow">Activity library</p><h2>${DATA.activities.length} activities, grouped by goal</h2>
+      <p class="muted">Tap a card for steps, cue words and how to make it easier or harder.</p></div>`;
+    h += `<div class="filters" role="group" aria-label="Filter by goal"><button class="chip" type="button" data-filter="all" aria-pressed="${f === "all"}">All</button>${Object.entries(DATA.goals).map(([k, g]) =>
+      `<button class="chip" type="button" data-filter="${k}" data-g="${k}" aria-pressed="${f === k}"><span class="dot"></span>${esc(g.name)}</button>`).join("")}</div>`;
+    const groups = f === "all" ? Object.keys(DATA.goals) : [f];
+    for (const g of groups) {
+      const list = DATA.activities.filter((a) => a.g === g);
+      h += `<div class="stack"><div><h3>${esc(DATA.goals[g].name)}</h3><p class="muted small">${esc(DATA.goals[g].sub)}</p></div><div class="cards">${list.map((a) =>
+        `<div class="tabbed" data-g="${a.g}">${goalIdx(a.g)}<button class="actbtn card acard" type="button" data-act="${a.id}">${photoOr(a)}<div class="txt"><h3>${esc(a.name)}</h3><p>${esc(a.why)}</p></div></button></div>`).join("")}</div></div>`;
+    }
+    $("#view-activities").innerHTML = h;
+  }
+  function openActivity(id) {
+    const a = ACT[id]; if (!a) return;
+    $("#sheetTitle").textContent = a.name;
+    $("#sheetBody").innerHTML = `<div class="detail" data-g="${a.g}">
+      <div>${goalIdx(a.g)}</div>
+      ${a.img ? `<figure><img src="${a.img}" alt="${esc(a.cap || a.name)}"><figcaption>${esc(a.cap || "")}</figcaption></figure>` : ""}
+      <p><b>Why:</b> ${esc(a.why)}</p>
+      <div class="card"><p class="eyebrow">How</p><ol class="steps">${a.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol></div>
+      <p class="say">${esc(a.say)}</p>
+      <div class="ladder"><div><b>Easier</b>${esc(a.easier)}</div><div><b>Harder</b>${esc(a.harder)}</div></div>
+      <div class="ladder"><div><b>How much</b>${esc(a.dose)}</div><div><b>You need</b>${esc(a.kit)}</div></div>
+      ${a.time ? `<div class="row"><button class="btn ghost" type="button" data-stopwatch="1">Time a hold</button></div>` : ""}
+    </div>`;
+    openSheet();
+  }
+
+  // ---------- LOG ----------
+  function renderLog() {
+    const m = S.logMode;
+    let h = `<div class="hero"><p class="eyebrow">Log</p><h2>${m === "session" ? "How did today go?" : "Fortnightly check-in"}</h2>
+      <p class="muted">${m === "session" ? "Two minutes after each session. Roland's parents see this on the Progress tab." : "Every second Friday (weeks 1, 3, 5, 7, 9). Takes about 10 minutes. Best of 3 tries for timed items."}</p></div>
+      <div class="seg" role="group" aria-label="Log type"><button type="button" data-logmode="session" aria-pressed="${m === "session"}">Session</button><button type="button" data-logmode="checkin" aria-pressed="${m === "checkin"}">Check-in</button></div>`;
+    h += m === "session" ? sessionForm() : checkinForm();
+    h += `<div id="recentWrap">${recentList(m)}</div>`;
+    $("#view-log").innerHTML = h;
+  }
+  function scaleRadios(name, labels, checked, start = 0) {
+    return `<div class="scale">${labels.map((l, i) => `<label><input type="radio" name="${name}" value="${i + start}" ${checked === i + start ? "checked" : ""}><span>${esc(l)}</span></label>`).join("")}</div>`;
+  }
+  function sessionForm() {
+    const t = today(); const di = weekdayIdx(t); const p = planFor(di);
+    const pre = new Set(p ? DATA.session.filter((b) => b.key !== "finish").map((b) => chosen(di, b.key)) : []);
+    const who = local.get("who", "Chrystal");
+    return `<form class="card form" id="sessionForm" novalidate>
+      <div class="pairs"><div class="field"><label for="s-date">Date</label><input type="date" id="s-date" name="date" value="${t}" required></div>
+      <div class="field"><label for="s-min">Minutes</label><input type="number" id="s-min" name="minutes" min="0" max="120" inputmode="numeric" value="${DATA.programme.minutes}"></div>
+      <div class="field"><label for="s-who">Logged by</label><input type="text" id="s-who" name="who" value="${esc(who)}" maxlength="40"></div></div>
+      <div class="field"><span class="lbl">What did you do?</span><span class="hint">Today's plan is ticked. Tap to change.</span>
+        <div class="pick">${Object.keys(DATA.goals).map((g) => `<div class="grp" data-g="${g}">${goalIdx(g)}${DATA.activities.filter((a) => a.g === g).map((a) =>
+          `<button type="button" class="chip" data-pick="${a.id}" aria-pressed="${pre.has(a.id)}">${esc(a.name)}</button>`).join("")}</div>`).join("")}</div></div>
+      <div class="field"><span class="lbl">His mood</span>${scaleRadios("mood", ["Not today", "Grumpy", "OK", "Happy", "Loved it"], 4, 1)}</div>
+      <div class="field"><span class="lbl">Focus and effort</span>${scaleRadios("focus", ["Very low", "Low", "OK", "Good", "Great"], 3, 1)}</div>
+      <div class="field"><span class="lbl">Grip reminders needed</span>${scaleRadios("gripPrompts", ["None", "A few", "Lots"], 1)}</div>
+      <div class="field"><span class="lbl">Did he swap hands while colouring?</span>${scaleRadios("swapped", ["No", "Once or twice", "Often", "No colouring today"], 3)}</div>
+      <div class="field"><label for="s-wins">What went well</label><textarea id="s-wins" name="wins" maxlength="600" placeholder="e.g. Held the egg for 12 s; cut the whole circle with his helper hand turning the paper."></textarea></div>
+      <div class="field"><label for="s-hard">What was hard</label><textarea id="s-hard" name="hard" maxlength="600" placeholder="e.g. Tired after 5 minutes of colouring; didn't want to close his eyes."></textarea></div>
+      <div class="row"><button class="btn" type="submit" ${S.readOnly ? "disabled" : ""}>Save session</button><button class="btn ghost" type="button" data-wa="session">Send on WhatsApp</button></div>
+    </form>`;
+  }
+  function numField(key, label, hint, timer) {
+    const m = DATA.measures[key];
+    return `<div class="field"><label for="c-${key}">${esc(label || m.label)} <span class="muted">(${m.unit === "s" ? "seconds" : m.unit === "min" ? "minutes" : "times"})</span></label>
+      ${hint ? `<span class="hint">${esc(hint)}</span>` : ""}
+      <div class="inline"><input type="number" id="c-${key}" name="${key}" min="0" max="${m.unit === "s" ? 120 : 60}" step="${m.unit === "s" ? 0.5 : 1}" inputmode="decimal">
+      ${timer ? `<button class="btn small ghost" type="button" data-stopwatch="1" data-fill="c-${key}" aria-label="Time ${esc(m.label)}">Time it</button>` : ""}</div></div>`;
+  }
+  function checkinForm() {
+    const t = today();
+    return `<form class="card form" id="checkinForm" novalidate>
+      <div class="pairs"><div class="field"><label for="c-date">Date</label><input type="date" id="c-date" name="date" value="${t}"></div>
+      <div class="field"><label for="c-who">Logged by</label><input type="text" id="c-who" name="who" value="${esc(local.get("who", "Chrystal"))}" maxlength="40"></div></div>
+      <p class="eyebrow">Balance · barefoot, hands on hips, best of 3</p>
+      <div class="pairs">${numField("balOpenR", "", "", true)}${numField("balOpenL", "", "", true)}${numField("balClosedR", "", "Hands hovering at his hips. Leave blank if he won't try.", true)}${numField("balClosedL", "", "", true)}</div>
+      <p class="eyebrow">Core · stop the clock when his shape breaks</p>
+      <div class="pairs">${numField("egg", "", "OT goal 15 s", true)}${numField("superman", "", "", true)}</div>
+      <p class="eyebrow">At the table · watch during a normal table task</p>
+      <div class="pairs">${numField("sitMin", "", "Until he props his head, slumps or kneels on the chair. OT goal 15–20 min.")}${numField("colourMin", "", "Small picture, until he asks to stop.")}${numField("switches", "", "Count swaps to his right hand.")}</div>
+      <p class="eyebrow">Skills · ${DATA.ratingScale.join(" / ")}</p>
+      ${DATA.ratings.map((r) => `<div class="field"><span class="lbl">${esc(r.label)}</span>${scaleRadios(r.key, DATA.ratingScale, -1)}</div>`).join("")}
+      <div class="field"><span class="lbl">Shapes he copied so you could recognise them</span><span class="hint">You draw it, he copies next to it. No tracing.</span>
+        <div class="row">${DATA.shapes.map((s) => `<button type="button" class="chip" data-shape="${s.key}" aria-pressed="false">${esc(s.label)}</button>`).join("")}</div></div>
+      <div class="field"><label for="c-notes">Notes</label><textarea id="c-notes" name="notes" maxlength="800"></textarea></div>
+      <div class="row"><button class="btn" type="submit" ${S.readOnly ? "disabled" : ""}>Save check-in</button><button class="btn ghost" type="button" data-wa="checkin">Send on WhatsApp</button></div>
+    </form>`;
+  }
+  function recentList(m) {
+    const list = (m === "session" ? S.sessions : S.checkins).slice(0, 8);
+    if (S.mode === "loading") return `<div class="empty">Loading the log…</div>`;
+    if (!list.length) return `<div class="empty">${m === "session" ? "No sessions logged yet. Your first saved session will show here and on the Progress tab." : "No check-ins yet. Do the first one on Friday of week 1: it becomes the starting point on every chart."}</div>`;
+    return `<div class="card"><h3>Recent ${m === "session" ? "sessions" : "check-ins"}</h3><div>${list.map((e) => entryRow(m, e)).join("")}</div></div>`;
+  }
+  function entryRow(m, e) {
+    const del = S.pendingDelete === e.id
+      ? `<span class="row"><span class="small">Delete this entry?</span><button class="btn small" type="button" data-del-yes="${e.id}" data-coll="${m === "session" ? "sessions" : "checkins"}">Delete</button><button class="btn small ghost" type="button" data-del-no="1">Keep</button></span>`
+      : (S.readOnly ? "" : `<button class="btn small ghost" type="button" data-del="${e.id}">Delete</button>`);
+    if (m === "session") {
+      const names = (e.activities || []).map((id) => ACT[id] ? ACT[id].name : id).join(", ");
+      return `<div class="entry"><div class="row" style="justify-content:space-between"><b>${esc(fmtDate(e.date))}</b>${del}</div>
+        <div class="meta"><span>${esc(e.minutes ?? "?")} min</span><span>Mood ${esc(e.mood ?? "?")}/5</span><span>Focus ${esc(e.focus ?? "?")}/5</span>${e.who ? `<span>by ${esc(e.who)}</span>` : ""}</div>
+        ${names ? `<p class="small">${esc(names)}</p>` : ""}${e.wins ? `<p class="small"><b>Went well:</b> ${esc(e.wins)}</p>` : ""}${e.hard ? `<p class="small"><b>Hard:</b> ${esc(e.hard)}</p>` : ""}</div>`;
+    }
+    const bits = [];
+    if (num(e.balOpenR) != null || num(e.balOpenL) != null) bits.push(`Balance R ${fmtN(e.balOpenR)} / L ${fmtN(e.balOpenL)} s`);
+    if (num(e.egg) != null) bits.push(`Egg ${fmtN(e.egg)} s`);
+    if (num(e.colourMin) != null) bits.push(`Colours ${fmtN(e.colourMin)} min`);
+    return `<div class="entry"><div class="row" style="justify-content:space-between"><b>${esc(fmtDate(e.date))} · week ${weekOf(e.date)}</b>${del}</div>
+      <div class="meta">${bits.map((b) => `<span>${esc(b)}</span>`).join("")}${e.who ? `<span>by ${esc(e.who)}</span>` : ""}</div>${e.notes ? `<p class="small">${esc(e.notes)}</p>` : ""}</div>`;
+  }
+  const num = (v) => (v === "" || v == null || isNaN(Number(v)) ? null : Number(v));
+  const fmtN = (v) => (num(v) == null ? "–" : String(Math.round(Number(v) * 10) / 10));
+
+  function readSession(form) {
+    const fd = new FormData(form);
+    return {
+      date: fd.get("date") || today(), minutes: num(fd.get("minutes")), who: String(fd.get("who") || "").trim(),
+      activities: $$("[data-pick][aria-pressed='true']", form).map((b) => b.dataset.pick),
+      mood: num(fd.get("mood")), focus: num(fd.get("focus")), gripPrompts: num(fd.get("gripPrompts")), swapped: num(fd.get("swapped")),
+      wins: String(fd.get("wins") || "").trim(), hard: String(fd.get("hard") || "").trim(), createdAt: new Date().toISOString()
+    };
+  }
+  function readCheckin(form) {
+    const fd = new FormData(form); const o = { date: fd.get("date") || today(), who: String(fd.get("who") || "").trim(), createdAt: new Date().toISOString() };
+    for (const k of Object.keys(DATA.measures)) { const v = num(fd.get(k)); if (v != null) o[k] = v; }
+    for (const r of DATA.ratings) { const v = num(fd.get(r.key)); if (v != null) o[r.key] = v; }
+    o.shapes = $$("[data-shape][aria-pressed='true']", form).map((b) => b.dataset.shape);
+    o.notes = String(fd.get("notes") || "").trim();
+    return o;
+  }
+  function sessionText(e) {
+    const names = (e.activities || []).map((id) => ACT[id] ? ACT[id].name : id);
+    const lines = [`Roland OT · ${fmtDate(e.date, { weekday: "short", day: "numeric", month: "short" })} (${e.minutes ?? "?"} min)`];
+    if (names.length) lines.push(`Did: ${names.join(", ")}`);
+    lines.push(`Mood ${e.mood ?? "?"}/5 · Focus ${e.focus ?? "?"}/5 · Grip reminders: ${["none", "a few", "lots"][e.gripPrompts] ?? "?"}`);
+    if (e.swapped != null && e.swapped < 3) lines.push(`Swapped hands colouring: ${["no", "once or twice", "often"][e.swapped]}`);
+    if (e.wins) lines.push(`Went well: ${e.wins}`);
+    if (e.hard) lines.push(`Hard: ${e.hard}`);
+    if (e.who) lines.push(`– ${e.who}`);
+    return lines.join("\n");
+  }
+  function checkinText(e) {
+    const L = [`Roland check-in · ${fmtDate(e.date, { weekday: "short", day: "numeric", month: "short" })} (week ${weekOf(e.date)})`];
+    if (num(e.balOpenR) != null || num(e.balOpenL) != null) L.push(`Balance eyes open: R ${fmtN(e.balOpenR)} s, L ${fmtN(e.balOpenL)} s (Sept OT: R 8, L 6)`);
+    if (num(e.balClosedR) != null || num(e.balClosedL) != null) L.push(`Eyes closed: R ${fmtN(e.balClosedR)} s, L ${fmtN(e.balClosedL)} s (goal 10)`);
+    if (num(e.egg) != null) L.push(`Egg hold: ${fmtN(e.egg)} s (goal 15)`);
+    if (num(e.superman) != null) L.push(`Superman: ${fmtN(e.superman)} s`);
+    if (num(e.sitMin) != null) L.push(`Sits upright: ${fmtN(e.sitMin)} min (goal 15–20)`);
+    if (num(e.colourMin) != null) L.push(`Colouring: ${fmtN(e.colourMin)} min` + (num(e.switches) != null ? `, swapped hands ${fmtN(e.switches)}×` : ""));
+    for (const r of DATA.ratings) if (e[r.key] != null) L.push(`${r.label}: ${DATA.ratingScale[e[r.key]]}`);
+    if (e.shapes && e.shapes.length) L.push(`Shapes copied: ${e.shapes.map((k) => (DATA.shapes.find((s) => s.key === k) || {}).label || k).join(", ")}`);
+    if (e.notes) L.push(`Notes: ${e.notes}`);
+    if (e.who) L.push(`– ${e.who}`);
+    return L.join("\n");
+  }
+  function showShare(text, title) {
+    $("#sheetTitle").textContent = title;
+    $("#sheetBody").innerHTML = `<div class="detail"><p class="muted">Copy this and paste it into WhatsApp, or use the WhatsApp button.</p>
+      <textarea class="copybox" id="shareText" readonly>${esc(text)}</textarea>
+      <div class="row"><button class="btn" type="button" id="copyShare">Copy text</button><a class="btn ghost" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">Open WhatsApp</a></div></div>`;
+    openSheet();
+    $("#copyShare").addEventListener("click", async () => {
+      const ta = $("#shareText");
+      try { await navigator.clipboard.writeText(ta.value); toast("Copied. Paste it into WhatsApp."); }
+      catch { ta.focus(); ta.select(); toast("Text selected. Copy it from the menu."); }
+    });
+  }
+
+  // ---------- PROGRESS ----------
+  function weekBuckets() {
+    const W = DATA.programme.weeks; const out = Array.from({ length: W }, (_, i) => ({ w: i + 1, n: 0, min: 0 }));
+    for (const s of S.sessions) { const w = weekOf(s.date); if (w >= 1 && w <= W) { out[w - 1].n++; out[w - 1].min += Number(s.minutes) || 0; } }
+    return out;
+  }
+  function series(key) {
+    return S.checkins.filter((c) => num(c[key]) != null).map((c) => ({ d: c.date, v: Number(c[key]) })).concat(DATA.otPoints[key] || []);
+  }
+  function renderProgress() {
+    const t = today(); const w = weekOf(t); const buckets = weekBuckets();
+    const thisW = w >= 1 && w <= DATA.programme.weeks ? buckets[w - 1] : { n: 0, min: 0 };
+    const last14 = S.sessions.filter((s) => dayNum(t) - dayNum(s.date) < 14 && dayNum(t) >= dayNum(s.date));
+    const avg = (arr, k) => { const v = arr.map((x) => num(x[k])).filter((x) => x != null); return v.length ? (v.reduce((a, b) => a + b, 0) / v.length) : null; };
+    const mood = avg(last14, "mood"); const focus = avg(last14, "focus");
+    const nc = nextCheckin(t);
+    let h = `<div class="hero"><p class="eyebrow">Progress</p><h2>How Roland is doing</h2>
+      <p class="muted">For Roland's parents. Filled in from Chrystal's session logs and fortnightly check-ins. Hollow dots are the OT's own measurements from May and September.</p></div>`;
+    if (S.mode === "loading") h += `<div class="empty">Loading the log…</div>`;
+    h += `<div class="tiles">
+      <div class="tile"><div class="lbl">Sessions this week</div><div class="val">${thisW.n} <span class="small muted">of ${DATA.programme.sessionsPerWeek}</span></div><div class="sub">${thisW.min} minutes</div></div>
+      <div class="tile"><div class="lbl">Sessions so far</div><div class="val">${S.sessions.length}</div><div class="sub">${S.sessions.reduce((a, s) => a + (Number(s.minutes) || 0), 0)} minutes in total</div></div>
+      <div class="tile"><div class="lbl">Mood, last 2 weeks</div><div class="val">${mood == null ? "–" : mood.toFixed(1)} <span class="small muted">/ 5</span></div><div class="sub">Focus ${focus == null ? "–" : focus.toFixed(1)} / 5</div></div>
+      <div class="tile"><div class="lbl">Next check-in</div><div class="val" style="font-size:1.3rem">${nc ? esc(fmtDate(nc.date)) : "Done"}</div><div class="sub">${nc ? `Week ${nc.w}` : "All 5 check-ins due"}</div></div>
+    </div>`;
+    h += `<div class="card"><h3>Sessions per week</h3><p class="muted small">Target ${DATA.programme.sessionsPerWeek} a week.</p>${barChart(buckets)}</div>`;
+    h += `<div class="card"><h3>Balance, eyes open</h3><p class="muted small">Seconds on one leg. Next step after 10 s: eyes closed.</p>${lineChart("balOpen", [
+      { name: "Right leg", c: "var(--s1)", pts: series("balOpenR") }, { name: "Left leg", c: "var(--s2)", pts: series("balOpenL") }], 10, "s")}</div>`;
+    h += `<div class="card"><h3>Balance, eyes closed</h3><p class="muted small">OT goal: 10 s on each leg. A stretch goal at 5, so small gains count.</p>${lineChart("balClosed", [
+      { name: "Right leg", c: "var(--s1)", pts: series("balClosedR") }, { name: "Left leg", c: "var(--s2)", pts: series("balClosedL") }], 10, "s")}</div>`;
+    h += `<div class="grid2"><div class="card"><h3>Egg hold</h3><p class="muted small">OT goal 15 s.</p>${lineChart("egg", [{ name: "Egg hold", c: "var(--s1)", pts: series("egg") }], 15, "s")}</div>
+      <div class="card"><h3>Superman hold</h3><p class="muted small">No OT goal; track the trend.</p>${lineChart("superman", [{ name: "Superman", c: "var(--s1)", pts: series("superman") }], null, "s")}</div></div>`;
+    h += `<div class="card"><h3>Stamina at the table</h3><p class="muted small">Minutes. OT goal: sit upright 15–20 minutes.</p>${lineChart("table", [
+      { name: "Sits upright", c: "var(--s1)", pts: series("sitMin") }, { name: "Colours a small picture", c: "var(--s2)", pts: series("colourMin") }], 15, "min")}</div>`;
+    h += skillsCard();
+    h += notesCard();
+    h += checkinTable();
+    h += `<div class="row"><button class="btn ghost" type="button" data-wa="report">Copy a 2-week summary</button></div>`;
+    $("#view-progress").innerHTML = h;
+    drawCharts();
+  }
+  function skillsCard() {
+    const withAny = S.checkins.filter((c) => DATA.ratings.some((r) => c[r.key] != null) || (c.shapes || []).length);
+    if (!withAny.length) return `<div class="card"><h3>Hand skills</h3><div class="empty">Skill ratings appear after the first check-in.</div></div>`;
+    const latest = withAny[0]; const first = withAny[withAny.length - 1];
+    const meter = (v) => `<span class="meter" aria-hidden="true">${[0, 1, 2, 3].map((i) => `<i class="${v != null && i <= v ? "on" : ""}"></i>`).join("")}</span>`;
+    const rows = DATA.ratings.map((r) => {
+      const a = first[r.key], b = latest[r.key];
+      const ch = a != null && b != null && first !== latest ? (b > a ? `<span class="pill up">Up</span>` : b < a ? `<span class="pill down">Down</span>` : `<span class="pill">Same</span>`) : "";
+      return `<div class="skill"><span>${esc(r.label)}</span><span class="row">${meter(b)}<span class="small">${b != null ? esc(DATA.ratingScale[b]) : "Not rated"}</span>${ch}</span></div>`;
+    }).join("");
+    const shapes = DATA.shapes.map((s) => `<span class="chip" aria-pressed="${(latest.shapes || []).includes(s.key)}">${esc(s.label)}</span>`).join("");
+    return `<div class="card"><h3>Hand skills</h3><p class="muted small">Latest check-in (${esc(fmtDate(latest.date))})${first !== latest ? `, compared with the first (${esc(fmtDate(first.date))})` : ""}.</p>
+      <div class="skills">${rows}</div>
+      <p class="eyebrow">Shapes copied (dark = yes)</p><div class="row">${shapes}</div></div>`;
+  }
+  function notesCard() {
+    const list = S.sessions.filter((s) => s.wins || s.hard).slice(0, 6);
+    if (!list.length) return `<div class="card"><h3>Notes from sessions</h3><div class="empty">What went well and what was hard will show here.</div></div>`;
+    return `<div class="card"><h3>Notes from sessions</h3><div>${list.map((s) => `<div class="entry"><b>${esc(fmtDate(s.date))}</b>${s.wins ? `<p class="small"><b>Went well:</b> ${esc(s.wins)}</p>` : ""}${s.hard ? `<p class="small"><b>Hard:</b> ${esc(s.hard)}</p>` : ""}</div>`).join("")}</div></div>`;
+  }
+  function checkinTable() {
+    if (!S.checkins.length) return "";
+    const keys = Object.keys(DATA.measures);
+    return `<details class="card"><summary><b>All check-in numbers</b></summary><div class="tablewrap"><table><thead><tr><th>Date</th>${keys.map((k) => `<th class="num">${esc(DATA.measures[k].label)} (${DATA.measures[k].unit})</th>`).join("")}</tr></thead>
+      <tbody>${S.checkins.map((c) => `<tr><td>${esc(fmtDate(c.date))}</td>${keys.map((k) => `<td class="num">${fmtN(c[k])}</td>`).join("")}</tr>`).join("")}</tbody></table></div></details>`;
+  }
+  function reportText() {
+    const t = today(); const recent = S.sessions.filter((s) => dayNum(t) - dayNum(s.date) < 14 && dayNum(t) >= dayNum(s.date));
+    const L = [`Roland OT · 2-week summary to ${fmtDate(t)}`, `Sessions: ${recent.length} (${recent.reduce((a, s) => a + (Number(s.minutes) || 0), 0)} min)`];
+    const m = recent.map((s) => num(s.mood)).filter((x) => x != null); if (m.length) L.push(`Average mood: ${(m.reduce((a, b) => a + b, 0) / m.length).toFixed(1)}/5`);
+    const c = S.checkins[0]; if (c) L.push("", "Latest check-in:", checkinText(c));
+    const notes = recent.filter((s) => s.wins).slice(0, 3).map((s) => `• ${s.wins}`); if (notes.length) L.push("", "Highlights:", ...notes);
+    return L.join("\n");
+  }
+
+  // charts: one scale per chart, hairline grid, 2px lines, 8px markers with a surface ring
+  const chartMeta = new Map();
+  function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(raw || 1))); const n = raw / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * p; }
+  // Charts are sized to their container so 11px text stays 11px on a phone.
+  const chartSpecs = new Map();
+  function lineChart(id, ser, goal, unit) {
+    const all = ser.flatMap((s) => s.pts);
+    const otKey = all.some((p) => p.ot) ? `<span><i class="ring"></i>OT measurement</span>` : "";
+    const legend = ser.length > 1 ? `<div class="legend">${ser.map((s) => `<span><i style="--c:${s.c}"></i>${esc(s.name)}</span>`).join("")}${otKey}</div>`
+      : (otKey ? `<div class="legend">${otKey}</div>` : "");
+    if (!all.length) return `<div class="empty">No numbers yet. They appear after the first check-in.</div>`;
+    chartSpecs.set(id, { kind: "line", ser, goal, unit });
+    return `${legend}<div class="chartslot" data-slot="${id}"></div>`;
+  }
+  function barChart(b) { chartSpecs.set("weeks", { kind: "bar", b }); return `<div class="chartslot" data-slot="weeks"></div>`; }
+  function drawCharts() {
+    $$(".chartslot").forEach((slot) => {
+      const spec = chartSpecs.get(slot.dataset.slot); if (!spec) return;
+      const W = Math.max(280, Math.round(slot.clientWidth || 320));
+      slot.innerHTML = spec.kind === "bar" ? barSvg(spec.b, W) : lineSvg(slot.dataset.slot, spec, W);
+    });
+    bindCharts();
+  }
+  function lineSvg(id, { ser, goal, unit }, W) {
+    const all = ser.flatMap((s) => s.pts);
+    const H = 200, ml = 30, mr = goal ? 74 : 14, mt = 12, mb = 28;
+    let x0 = Math.min(...all.map((p) => dayNum(p.d))), x1 = Math.max(...all.map((p) => dayNum(p.d)));
+    if (x1 - x0 < 21) { x0 -= 10; x1 += 10; }
+    const vmax = Math.max(goal || 0, ...all.map((p) => p.v), 1);
+    const step = niceStep((vmax * 1.15) / 4); const y1 = Math.ceil((vmax * 1.15) / step) * step;
+    const X = (d) => ml + ((dayNum(d) - x0) / (x1 - x0)) * (W - ml - mr);
+    const Xn = (n) => ml + ((n - x0) / (x1 - x0)) * (W - ml - mr);
+    const Y = (v) => mt + (1 - v / y1) * (H - mt - mb);
+    let g = `<g class="grid">`; for (let v = 0; v <= y1 + 1e-9; v += step) g += `<line x1="${ml}" x2="${W - mr}" y1="${Y(v)}" y2="${Y(v)}"/>`; g += `</g>`;
+    let ax = `<g class="axis">`; for (let v = 0; v <= y1 + 1e-9; v += step) ax += `<text x="${ml - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`;
+    // x ticks: month starts for long ranges, otherwise weekly; never closer than ~56px
+    const span = x1 - x0, plotW = W - ml - mr, ticks = []; const d0 = new Date(x0 * 864e5);
+    if (span > 70) { const m = new Date(d0.getFullYear(), d0.getMonth() + 1, 1); while (Math.round(m.getTime() / 864e5) <= x1) { ticks.push({ n: Math.round(m.getTime() / 864e5), l: m.toLocaleDateString("en-ZA", { month: "short" }) }); m.setMonth(m.getMonth() + 1); } }
+    else { const st = Math.max(7, Math.ceil(span / Math.max(2, Math.floor(plotW / 64)) / 7) * 7); for (let n = x0 + 3; n <= x1; n += st) { const dd = new Date(n * 864e5); ticks.push({ n, l: dd.toLocaleDateString("en-ZA", { day: "numeric", month: "short" }) }); } }
+    const every = Math.max(1, Math.ceil(ticks.length / Math.max(1, Math.floor(plotW / 44))));
+    ticks.forEach((tk, i) => { if (i % every === 0) ax += `<text x="${Xn(tk.n)}" y="${H - 8}" text-anchor="middle">${esc(tk.l)}</text>`; });
+    ax += `</g>`;
+    const goalG = goal ? `<g class="goal"><line x1="${ml}" x2="${W - mr}" y1="${Y(goal)}" y2="${Y(goal)}"/><text x="${W - mr + 6}" y="${Y(goal) + 4}">Goal ${goal} ${unit}</text></g>` : "";
+    let sg = ""; const byX = new Map();
+    for (const s of ser) {
+      const pts = s.pts.slice().sort((a, b) => a.d.localeCompare(b.d));
+      if (pts.length > 1) sg += `<g class="series"><path d="${pts.map((p, i) => `${i ? "L" : "M"}${X(p.d).toFixed(1)},${Y(p.v).toFixed(1)}`).join("")}" style="stroke:${s.c}"/></g>`;
+      for (const p of pts) {
+        sg += p.ot ? `<circle cx="${X(p.d)}" cy="${Y(p.v)}" r="4.5" style="fill:var(--surface);stroke:${s.c};stroke-width:2"/>`
+          : `<circle cx="${X(p.d)}" cy="${Y(p.v)}" r="4" style="fill:${s.c};stroke:var(--surface);stroke-width:2"/>`;
+        if (!byX.has(p.d)) byX.set(p.d, { x: X(p.d), d: p.d, rows: [] });
+        byX.get(p.d).rows.push({ name: s.name, c: s.c, v: p.v, ot: !!p.ot });
+      }
+    }
+    chartMeta.set(id, { W, H, unit, xs: Array.from(byX.values()).sort((a, b) => a.x - b.x) });
+    return `<figure class="chart" data-chart="${id}"><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" tabindex="0" aria-label="Line chart; use arrow keys to read values">${g}${goalG}${ax}${sg}
+      <line class="cross" x1="0" x2="0" y1="${mt}" y2="${H - mb}" visibility="hidden"/><rect x="${ml}" y="${mt}" width="${W - ml - mr}" height="${H - mt - mb}" fill="transparent"/></svg>
+      <div class="tip" hidden></div></figure>`;
+  }
+  function barSvg(b, W) {
+    const H = 160, ml = 8, mr = 74, mt = 14, mb = 26; const target = DATA.programme.sessionsPerWeek;
+    const ymax = Math.max(target + 1, ...b.map((x) => x.n)); const Y = (v) => mt + (1 - v / ymax) * (H - mt - mb);
+    const slot = (W - ml - mr) / b.length; const bw = Math.min(24, slot * 0.55); const cw = weekOf(today());
+    let s = `<g class="grid"><line x1="${ml}" x2="${W - mr}" y1="${Y(0)}" y2="${Y(0)}"/></g>`;
+    s += `<g class="goal"><line x1="${ml}" x2="${W - mr}" y1="${Y(target)}" y2="${Y(target)}"/><text x="${W - mr + 6}" y="${Y(target) + 4}">${target} a week</text></g><g class="axis">`;
+    b.forEach((x, i) => {
+      const cx = ml + slot * i + slot / 2; s += `<text x="${cx}" y="${H - 8}" text-anchor="middle" style="${x.w === cw ? "font-weight:700;fill:var(--ink)" : ""}">W${x.w}</text>`;
+      if (x.n) s += `<text x="${cx}" y="${Y(x.n) - 6}" text-anchor="middle" style="fill:var(--ink-2)">${x.n}</text>`;
+    });
+    s += `</g>`;
+    b.forEach((x, i) => {
+      if (!x.n) return; const cx = ml + slot * i + slot / 2; const y = Y(x.n), y0 = Y(0), r = Math.min(4, (y0 - y) / 2);
+      s += `<path d="M${cx - bw / 2},${y0}V${y + r}Q${cx - bw / 2},${y} ${cx - bw / 2 + r},${y}H${cx + bw / 2 - r}Q${cx + bw / 2},${y} ${cx + bw / 2},${y + r}V${y0}Z" style="fill:var(--s1)"><title>Week ${x.w}: ${x.n} sessions, ${x.min} min</title></path>`;
+    });
+    return `<figure class="chart"><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Sessions per week: ${b.map((x) => `week ${x.w} ${x.n}`).join(", ")}">${s}</svg></figure>`;
+  }
+  function bindCharts() {
+    $$("figure.chart[data-chart]").forEach((fig) => {
+      const meta = chartMeta.get(fig.dataset.chart); if (!meta || !meta.xs.length) return;
+      const svg = $("svg", fig), cross = $(".cross", fig), tip = $(".tip", fig); let idx = meta.xs.length - 1;
+      const show = (i) => {
+        idx = Math.max(0, Math.min(meta.xs.length - 1, i)); const pt = meta.xs[idx];
+        cross.setAttribute("x1", pt.x); cross.setAttribute("x2", pt.x); cross.setAttribute("visibility", "visible");
+        tip.innerHTML = `<div class="small muted">${esc(fmtDate(pt.d, { day: "numeric", month: "short", year: "numeric" }))}</div>` + pt.rows.map((r) =>
+          `<div class="r"><i style="--c:${r.c}"></i><b>${fmtN(r.v)} ${meta.unit}</b><span class="muted">${esc(r.name)}${r.ot ? " · OT" : ""}</span></div>`).join("");
+        tip.hidden = false;
+        const px = (pt.x / meta.W) * fig.clientWidth; const tw = tip.offsetWidth;
+        tip.style.left = Math.max(0, Math.min(fig.clientWidth - tw, px + 12 > fig.clientWidth - tw ? px - tw - 12 : px + 12)) + "px";
+      };
+      const hide = () => { cross.setAttribute("visibility", "hidden"); tip.hidden = true; };
+      svg.addEventListener("pointermove", (e) => {
+        const r = svg.getBoundingClientRect(); const vx = ((e.clientX - r.left) / r.width) * meta.W;
+        let best = 0, bd = Infinity; meta.xs.forEach((p, i) => { const d = Math.abs(p.x - vx); if (d < bd) { bd = d; best = i; } }); show(best);
+      });
+      svg.addEventListener("pointerleave", hide);
+      svg.addEventListener("focus", () => show(idx)); svg.addEventListener("blur", hide);
+      svg.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft") { show(idx - 1); e.preventDefault(); } if (e.key === "ArrowRight") { show(idx + 1); e.preventDefault(); } });
+    });
+  }
+
+  // ---------- KIT ----------
+  function renderKit() {
+    const grp = (k) => DATA.kit.filter((i) => i.grp === k);
+    const total = (arr) => arr.reduce((a, i) => a + i.price, 0);
+    const left = (arr) => arr.filter((i) => !S.kit[i.id]).reduce((a, i) => a + i.price, 0);
+    const R = (n) => "R" + n.toLocaleString("en-ZA").replace(/ |,/g, " ");
+    const item = (i) => `<label class="kititem ${S.kit[i.id] ? "done" : ""}"><input type="checkbox" data-kit="${i.id}" ${S.kit[i.id] ? "checked" : ""} ${S.readOnly ? "disabled" : ""}>
+      <span><span class="nm">${esc(i.name)}</span>${i.grp === "ask" ? `<span class="tag">Ask the OT first</span>` : ""}<div class="why">${esc(i.why)}</div>
+      <div class="where">${esc(i.where)} <a href="https://www.takealot.com/all?qsearch=${encodeURIComponent(i.q)}" target="_blank" rel="noopener">Search Takealot</a></div></span>
+      <span class="price">${R(i.price)}</span></label>`;
+    const must = grp("must"), nice = grp("nice"), ask = grp("ask");
+    let h = `<div class="hero"><p class="eyebrow">Kit</p><h2>Shopping list</h2>
+      <p class="muted">Tick items off as you buy them; ticks are shared with everyone using this page. Prices are rough estimates from Takealot and SA shops on 5 Oct 2026 and will change.</p></div>
+      <div class="tiles"><div class="tile"><div class="lbl">Must-haves</div><div class="val">${R(total(must))}</div><div class="sub">${R(left(must))} still to buy</div></div>
+      <div class="tile"><div class="lbl">Nice-to-haves</div><div class="val">${R(total(nice))}</div><div class="sub">${R(left(nice))} still to buy</div></div></div>
+      <div class="card"><h3>Must-haves</h3><p class="muted small">Enough for every activity on the weekly plan.</p><div class="kitgrp">${must.map(item).join("")}</div></div>
+      <div class="card"><h3>Nice-to-haves</h3><p class="muted small">Bring the clinic's gross-motor games home. Buy over time.</p><div class="kitgrp">${nice.map(item).join("")}</div></div>
+      <div class="card"><h3>Check with Simóne first</h3><div class="kitgrp">${ask.map(item).join("")}</div></div>
+      <div class="card"><h3>Already in the house</h3><ul class="clean">${DATA.freeKit.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="card"><h3>Where to shop</h3><ul class="clean">${DATA.suppliers.map((s) => `<li><a href="${s.url}" target="_blank" rel="noopener">${esc(s.name)}</a>: ${esc(s.note)}</li>`).join("")}</ul>
+      <p class="small muted">Left-handed scissors: check the blades are reversed (the top blade is on the left when he holds them). "Ambidextrous" scissors are not the same.</p></div>`;
+    $("#view-kit").innerHTML = h;
+  }
+
+  // ---------- GUIDE ----------
+  function renderGuide() {
+    const age = (() => { const b = parse(DATA.child.born), n = new Date(); let y = n.getFullYear() - b.getFullYear(); let m = n.getMonth() - b.getMonth(); if (n.getDate() < b.getDate()) m--; if (m < 0) { y--; m += 12; } return `${y} years, ${m} month${m === 1 ? "" : "s"}`; })();
+    const tile = (r) => `<span class="tiles5">${[1, 2, 3, 4, 5].map((v) => `<i class="${v === r.sep ? `sep v${v}` : ""} ${v === r.may ? "may" : ""}" title="${v === r.may ? "May" : ""}${v === r.sep ? " September" : ""}">${v}</i>`).join("")}</span>`;
+    const sec = (id, title, body) => `<section id="g-${id}" class="card stack"><h2>${title}</h2>${body}</section>`;
+    let h = `<div class="hero"><p class="eyebrow">Guide for Chrystal</p><h2>Everything you need to run Roland's sessions</h2>
+      <p class="muted">Based on Simóne Vorster's OT progress report (4 October 2026) and current paediatric OT guidance.</p></div>
+      <nav class="toc" aria-label="Guide sections">${[["about", "Roland"], ["goals", "Goals"], ["how", "How a session works"], ["lefty", "Left-handed set-up"], ["grip", "Pencil grip"], ["cues", "Cue words"], ["cutting", "Scissor ladder"], ["shapes", "Shapes by age"], ["stop", "When to stop"], ["parents", "For parents"], ["sources", "Sources"]]
+        .map(([a, l]) => `<a class="chip" href="#g-${a}" data-anchor="g-${a}">${l}</a>`).join("")}</nav>`;
+    h += sec("about", "Roland", `<p>Roland is ${esc(age)} old, healthy, bright and <b>left-handed</b>. He finished 13 OT sessions with ${esc(DATA.child.ot)} between May and September 2026 and improved in every area. Therapy is paused for term 4, and the OT recommends ongoing support at home. That is this programme.</p>
+      <p>From the OT photos: he loves movement games (swings, racquets, scooter board, throwing). Use that. Put movement first and make table work short, small and successful.</p>
+      <div class="otscale"><p class="eyebrow">OT rating, May → September (1 = definite difficulty, 5 = optimal)</p>${DATA.otRatings.map((r) => `<div class="otrow"><span>${esc(r.area)}</span>${tile(r)}</div>`).join("")}
+      <p class="small muted">Outlined = May. Filled = September. 3 means "still needs some support and practice"; 4 means "nearly there, quality or speed still affected".</p></div>`);
+    h += sec("goals", "His goals, and where he is now", `<div class="stack">${DATA.otGoals.map((x) => `<div class="tabbed" data-g="${x.g}">${goalIdx(x.g)}<div class="card"><p><b>${esc(x.goal)}</b></p><p class="muted small">Now: ${esc(x.now)}</p></div></div>`).join("")}</div>
+      <p class="small muted">Typical for his age: about 27 s for the egg hold and about 10 s on one leg with eyes open. Eyes-closed balance is much harder at 5, so 10 s eyes closed is a stretch goal. Progress in small steps.</p>`);
+    h += sec("how", "How a session works", `<p>About <b>20 minutes, 5 days a week</b>, ideally at the same time each day (not straight after school if he is tired, and not right before bed). The Today tab shows each day's plan. Most of the time goes on the real skills (balance, cutting, drawing, colouring); finger games are a short warm-up.</p>
+      <div class="ladder">${DATA.session.map((b) => `<div><b>${b.min} min · ${esc(b.label)}</b>${esc(b.note)}</div>`).join("")}</div>
+      <h3>Golden rules</h3><div class="ladder">${DATA.rules.map((r) => `<div><b>${esc(r.t)}</b>${esc(r.d)}</div>`).join("")}</div>
+      <h3>Everyday sneak-ins</h3><ul class="clean">${DATA.sneakIns.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`);
+    h += sec("lefty", "Table set-up for a left-hander", `<div class="diagram">${leftyDiagram()}</div>
+      <ol class="steps"><li><b>Paper</b> on his left side, turned clockwise about 30–45°: the top of the page leans right and the left corner is higher. The bottom-right corner sits near the middle of his body. Check: the side of the page lines up with his left forearm. A strip of tape on the table marks the angle.</li>
+      <li><b>Left forearm</b> rests along the page with the wrist straight and <b>below</b> the line he is drawing on, never hooked over the top. He holds the pencil 2–3 cm from the tip so he can see his work.</li>
+      <li><b>Helper hand</b> (his right) holds the page and slides it up as he works.</li>
+      <li><b>Light</b> from his right, so his hand doesn't shadow the page.</li></ol>
+      <figure style="margin:0"><img src="img/colouring-helper-hand.jpg" alt="Roland colouring with his left hand while his right hand lies flat on the page" style="border-radius:12px;max-height:260px;object-fit:cover;width:100%"><figcaption class="small muted">At OT: left hand colours, right (helper) hand holds the page flat.</figcaption></figure>
+      <h3>Chair and table</h3><ul class="clean"><li>Feet flat on the floor or a step stool; hips, knees and ankles at right angles; bottom at the back of the chair.</li>
+      <li>Table about 5 cm above his bent elbow. A slant board (a clipboard on a lever-arch file) helps his wrist.</li>
+      <li>When he tires, change position rather than push on: paper on the wall, lying on his tummy on elbows, or kneeling at the coffee table.</li></ul>
+      <h3>Where you sit</h3><ul class="clean"><li>Showing a grip or how to hold scissors: sit <b>facing</b> him so he copies you like a mirror; use your left hand if you can.</li>
+      <li>Drawing shapes together: sit on <b>his right</b> so elbows don't bump and he sees the shape the right way round.</li>
+      <li>At school and at a shared table he sits at the <b>left end</b>.</li></ul>
+      <div class="banner warn"><b>Check with the OT:</b> the report says "rotate the page 45 degrees to the left". In standard wording a tilt "to the left" (anticlockwise) is the right-hander's position, and for a left-hander it encourages a hooked wrist. She most likely meant placing the page on his left with the left corner raised, as shown here. Send Simóne a photo of this set-up to confirm.</div>`);
+    h += sec("grip", "Pencil grip", `<p><b>What we see:</b> his thumb wraps round the crayon and the gap between thumb and pointer finger closes up. <b>Goal:</b> a three-finger pinch (thumb, pointer, middle finger) with a round open "O" between thumb and pointer.</p>
+      <p class="small muted">At 4–6 most children use a still three- or four-finger grip; the moving "dynamic" tripod comes at about 6–7. Studies show four-finger grips work as well as the tripod, so don't chase perfection. The thumb wrapped tightly round the pencil is the one worth changing: it makes children press harder and tire sooner.</p>
+      <figure style="margin:0"><img src="img/grip-elastic.jpg" alt="An adult hand showing the elastic loop trick on a crayon" style="border-radius:12px;max-height:280px;object-fit:cover;width:100%"><figcaption class="small muted">The elastic-loop trick shown at OT. Copy it as shown in the photo.</figcaption></figure>
+      <h3>Tricks that help without nagging</h3><ul class="clean">
+      <li>Snap crayons into short pieces (under 3 cm). A short crayon only fits in a fingertip grip.</li>
+      <li>A small sticker on the pencil where his pointer finger goes.</li>
+      <li>Short or golf pencils and chunky triangular pencils.</li>
+      <li>Tuck a small pompom or rubber under his ring and little fingers: "hold the treasure".</li>
+      <li>Work on an upright surface (wall, easel, chalkboard) or a slant board.</li>
+      <li>Warm up the hands first: playdough, pegs, tweezers.</li>
+      <li><b>Set the grip at the start</b> ("pinch the tip and flip"). Don't interrupt him mid-drawing; check at natural pauses, like when the timer goes. Use one word or a silent signal (show him your own "O" or tap the sticker). Praise him when he fixes it himself.</li></ul>`);
+    h += sec("cues", "Cue words", `<p class="muted">Same short words every time, one at a time.</p><div class="cues">${DATA.cues.map((c) => `<div class="cue"><b>"${esc(c.say)}"</b><span>${esc(c.when)}</span></div>`).join("")}</div>`);
+    h += sec("cutting", "Scissor ladder", `<p>He is between steps 3 and 4: straight lines are better, curves need practice. Always: <b>thumbs up</b>, elbow by his side, <b>helper hand turns the paper</b>. Left-handers cut circles <b>clockwise</b>.</p>
+      <div class="ladder">${DATA.scissorLadder.map((s) => `<div><b>${esc(s.lvl)}</b>${esc(s.ex)}<br><span class="small muted">Typical age ${esc(s.age)}</span></div>`).join("")}</div>
+      <p class="small muted">Card is easier to control than paper. Thick lines first. The page must be turned by the helper hand. If his left shoulder lifts, remind him: "turn the paper".</p>`);
+    h += sec("shapes", "Shapes by age", `<p>Copying (not tracing) shapes is the OT's visual-motor goal. He was at about a 4-year level. Work up the list below; the square, X and triangle are the targets before Grade R.</p>
+      <div class="tablewrap"><table><thead><tr><th>Shape</th><th class="num">Typical age</th></tr></thead><tbody>${DATA.shapeAges.map((r) => `<tr><td>${esc(r.s)}</td><td class="num">${esc(r.age)}</td></tr>`).join("")}</tbody></table></div>
+      <figure style="margin:0"><img src="img/stick-shapes.jpg" alt="Roland building a shape from sticks on a foam block" style="border-radius:12px;max-height:260px;object-fit:cover;width:100%"><figcaption class="small muted">At OT: building shapes from sticks before drawing them.</figcaption></figure>
+      <p class="small muted">Letters are not a goal yet. If he wants to write his name, praise it and show him that letters start at the top.</p>`);
+    h += sec("stop", "When to stop", `<h3>Signs he is tired</h3><ul class="clean">${DATA.tiredSigns.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <p>Switch to a movement break (wall push-ups, animal walk), then finish with something easy he enjoys. Never push through tears.</p>
+      <h3>Safety</h3><ul class="clean"><li>Balance and eyes-closed work: barefoot, clear floor, next to a sofa or in a corner, your hands hovering at his hips.</li><li>Gym ball: you stay within arm's reach.</li><li>Wheelbarrow: hold at his thighs or knees, never his ankles at first.</li><li>Holds: he keeps breathing (count out loud together). Stop if his neck strains.</li></ul>
+      <h3>Tell Roland's parents (and they'll check with the OT)</h3><ul class="clean">${DATA.callOT.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`);
+    h += sec("parents", "For Roland's parents", `<p class="muted">Home programmes work best when the person running them is coached, the goals are clear, a log is kept and a therapist reviews progress now and then. These steps cover that.</p><ul class="clean">
+      <li><b>Share with Chrystal:</b> use Share on this page and invite Chrystal's email as an <b>Editor</b>, not with a public link. Editors can save logs. Chrystal needs to sign in to Claude with that email. Anyone who can only view can still read the manual and send logs on WhatsApp.</li>
+      <li><b>Coaching:</b> if possible, book one session where Chrystal watches Simóne work with Roland (or a short call), so she sees the grip, scissor and balance cues done live.</li>
+      <li><b>Questions for Simóne before you start:</b> which way she meant the 45° paper tilt; whether 10 s eyes-closed balance is the goal at this age; which reflex exercises she wants (if any); when to try a pencil grip.</li>
+      <li><b>Check the Progress tab</b> once a week. Each check-in also has a WhatsApp summary.</li>
+      <li><b>Week 5 (6 November):</b> send the check-in to Simóne for a quick review.</li>
+      <li><b>Week 9 (4 December):</b> send the final check-in and the 2-week summary. Ask whether to restart therapy before Grade R. Give it the full 9 weeks before judging: handwriting programmes with fewer than about 20 sessions didn't work in studies.</li>
+      <li><b>Tell the Grade R teacher</b> he is left-handed: left-handed scissors in class and a seat at the left end of a shared table.</li></ul>`);
+    h += sec("sources", "Sources", `<p class="small muted">The activities follow Simóne's home recommendations, the OT handouts (Growing Hands-On Kids) and the sources below. This guide is for home practice and doesn't replace the OT's advice.</p>
+      <ul class="clean small">${DATA.sources.map((s) => `<li><a href="${s.u}" target="_blank" rel="noopener">${esc(s.t)}</a></li>`).join("")}</ul>`);
+    $("#view-guide").innerHTML = h;
+  }
+  function leftyDiagram() {
+    // Top-down view. Paper left of his midline, top leaning right (rotated clockwise 35°), forearm parallel to the page edge.
+    return `<svg viewBox="0 0 360 282" role="img" aria-label="Top-down drawing: paper on the left of Roland's body, rotated so the top leans right; his left forearm runs along the side of the page; his right hand holds the page; light comes from his right.">
+      <rect x="8" y="8" width="344" height="186" rx="10" style="fill:var(--surface-2)"/>
+      <line x1="170" y1="18" x2="170" y2="196" style="stroke:var(--ink-3);stroke-width:1.5;stroke-dasharray:4 5"/>
+      <text x="176" y="30" style="fill:var(--ink-3);font-size:11px">middle of his body</text>
+      <g transform="translate(118 104) rotate(35)"><rect x="-45" y="-63" width="90" height="126" rx="3" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.5"/>
+        <line x1="-32" y1="-35" x2="32" y2="-35" style="stroke:var(--line);stroke-width:2"/><line x1="-32" y1="-15" x2="32" y2="-15" style="stroke:var(--line);stroke-width:2"/><line x1="-32" y1="5" x2="20" y2="5" style="stroke:var(--line);stroke-width:2"/></g>
+      <path d="M128 228 L72 192 L104 132" style="fill:none;stroke:var(--g-pencil);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;opacity:.85"/>
+      <circle cx="104" cy="130" r="9" style="fill:var(--g-pencil)"/>
+      <path d="M212 228 L222 178 L160 104" style="fill:none;stroke:var(--ink-3);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;opacity:.6"/>
+      <circle cx="158" cy="102" r="9" style="fill:var(--ink-3);opacity:.8"/>
+      <ellipse cx="170" cy="236" rx="56" ry="18" style="fill:var(--ink-2)"/><circle cx="170" cy="218" r="17" style="fill:var(--ink)"/>
+      <g style="stroke:var(--warn);stroke-width:2;stroke-linecap:round"><circle cx="316" cy="52" r="10" style="fill:var(--warn)"/><path d="M316 32v-6M316 78v-6M296 52h-6M342 52h-6M302 38l-4-4M330 38l4-4M302 66l-4 4M330 66l4 4"/></g>
+      ${[[112, 70, 1], [80, 160, 2], [246, 146, 3], [316, 86, 4]].map(([x, y, n]) => `<circle cx="${x}" cy="${y}" r="10" style="fill:var(--ink)"/><text x="${x}" y="${y + 4}" text-anchor="middle" style="fill:var(--bg);font-size:12px;font-weight:700">${n}</text>`).join("")}
+      <text x="170" y="276" text-anchor="middle" style="fill:var(--ink-3);font-size:11px">Roland, seen from above</text>
+    </svg>`;
+  }
+
+  // ---------- timer sheet ----------
+  let tState = null; let wakeLock = null;
+  function beep() { try { const C = window.AudioContext || window.webkitAudioContext; const ctx = new C(); const o = ctx.createOscillator(); const g = ctx.createGain(); o.frequency.value = 880; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(.2, ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .8); o.start(); o.stop(ctx.currentTime + .8); } catch { /* no audio */ } }
+  async function lockScreen(on) { try { if (on && navigator.wakeLock) wakeLock = await navigator.wakeLock.request("screen"); else if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; } } catch { wakeLock = null; } }
+  function openTimer(opts = {}) {
+    stopTick();
+    const mode = opts.mode || "count"; const fill = opts.fill || null;
+    tState = { mode, fill, total: opts.seconds || 300, left: opts.seconds || 300, running: false, t0: 0, elapsed: 0, raf: 0 };
+    $("#sheetTitle").textContent = mode === "count" ? "Visual timer" : "Hold timer";
+    renderTimer(); openSheet();
+  }
+  function renderTimer() {
+    const s = tState; const C = 2 * Math.PI * 45;
+    const body = s.mode === "count"
+      ? `<div class="dial"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="45" style="fill:var(--surface);stroke:var(--surface-2);stroke-width:10"/>
+          <circle id="arc" cx="50" cy="50" r="45" style="fill:none;stroke:var(--g-body);stroke-width:10;stroke-linecap:round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - s.left / s.total)}"/></svg>
+          <div class="read" id="tRead" aria-live="off">${mmss(s.left)}</div></div>
+        <div class="row" role="group" aria-label="Minutes">${[1, 2, 3, 5, 8, 10, 25].map((m) => `<button class="chip" type="button" data-preset="${m * 60}" aria-pressed="${s.total === m * 60}">${m} min</button>`).join("")}</div>`
+      : `<div class="bigsecs" id="tRead" aria-live="off">${(s.elapsed / 1000).toFixed(1)}</div><p class="muted">seconds. Count out loud with him. Stop when his position breaks.</p>`;
+    $("#sheetBody").innerHTML = `<div class="timer">
+      <div class="seg" role="group" aria-label="Timer type"><button type="button" data-tmode="count" aria-pressed="${s.mode === "count"}">Countdown</button><button type="button" data-tmode="watch" aria-pressed="${s.mode === "watch"}">Hold timer</button></div>
+      ${body}
+      <div class="row"><button class="btn" type="button" id="tGo">${s.running ? (s.mode === "count" ? "Pause" : "Stop") : "Start"}</button><button class="btn ghost" type="button" id="tReset">Reset</button>
+      ${s.mode === "watch" && s.fill && !s.running && s.elapsed > 0 ? `<button class="btn" type="button" id="tUse">Use ${fmtN(Math.round(s.elapsed / 500) / 2)} s</button>` : ""}</div></div>`;
+  }
+  const mmss = (sec) => `${Math.floor(sec / 60)}:${pad(Math.floor(sec % 60))}`;
+  function tick() {
+    const s = tState; if (!s || !s.running) return;
+    const now = performance.now();
+    if (s.mode === "count") {
+      s.left = Math.max(0, s.leftAtStart - (now - s.t0) / 1000);
+      const C = 2 * Math.PI * 45; const arc = $("#arc"); if (arc) arc.setAttribute("stroke-dashoffset", String(C * (1 - s.left / s.total)));
+      const r = $("#tRead"); if (r) r.textContent = mmss(Math.ceil(s.left));
+      if (s.left <= 0) { s.running = false; beep(); lockScreen(false); renderTimer(); toast("Time's up!"); return; }
+    } else {
+      s.elapsed = s.base + (now - s.t0); const r = $("#tRead"); if (r) r.textContent = (s.elapsed / 1000).toFixed(1);
+    }
+    s.raf = requestAnimationFrame(tick);
+  }
+  function stopTick() { if (tState) { cancelAnimationFrame(tState.raf); tState.running = false; } lockScreen(false); }
+
+  // ---------- sheet ----------
+  let lastFocus = null;
+  function openSheet() { lastFocus = document.activeElement; $("#scrim").hidden = false; document.body.style.overflow = "hidden"; $("#sheetClose").focus(); }
+  function closeSheet() { stopTick(); $("#scrim").hidden = true; document.body.style.overflow = ""; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+
+  // ---------- render dispatch ----------
+  const renderers = { today: renderToday, activities: renderActivities, log: renderLog, progress: renderProgress, kit: renderKit, guide: renderGuide };
+  const dirty = new Set();
+  function render(tab) { renderers[tab](); dirty.delete(tab); }
+  function refresh(tabs) {
+    (tabs || ["log", "progress", "kit"]).forEach((t) => dirty.add(t));
+    if (dirty.has(S.tab)) {
+      // keep an in-progress form untouched
+      if (S.tab === "log" && document.activeElement && $("#view-log").contains(document.activeElement) && document.activeElement.matches("input,textarea")) {
+        const rw = $("#recentWrap"); if (rw) rw.innerHTML = recentList(S.logMode); // update the list only
+        dirty.delete("log"); return;
+      }
+      render(S.tab);
+    }
+  }
+  function go(tab, opts = {}) {
+    if (!renderers[tab]) return;
+    S.tab = tab; if (opts.logmode) S.logMode = opts.logmode;
+    if (tab === "guide") local.set("seenGuide", true);
+    $$(".tabs button").forEach((b) => b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false"));
+    $$("main > .view").forEach((v) => { v.hidden = v.id !== "view-" + tab; });
+    render(tab); window.scrollTo(0, 0);
+  }
+
+  // ---------- events ----------
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("button, a, label, input"); if (!t) { if (e.target === $("#scrim")) closeSheet(); return; }
+    if (t.dataset.tab) return go(t.dataset.tab);
+    if (t.dataset.go) return go(t.dataset.go, { logmode: t.dataset.logmode });
+    if (t.dataset.anchor) { e.preventDefault(); const el = document.getElementById(t.dataset.anchor); if (el) el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); return; }
+    if (t.dataset.day != null) { S.day = Number(t.dataset.day); return renderToday(); }
+    if (t.dataset.swap) { const di = Number(t.dataset.di); S.swaps[di] = S.swaps[di] || {}; S.swaps[di][t.dataset.blk] = t.dataset.swap; return renderToday(); }
+    if (t.dataset.act) return openActivity(t.dataset.act);
+    if (t.dataset.filter) { S.filter = t.dataset.filter; return renderActivities(); }
+    if (t.dataset.logmode && t.closest("#view-log")) { S.logMode = t.dataset.logmode; return renderLog(); }
+    if (t.dataset.pick || t.dataset.shape) { t.setAttribute("aria-pressed", t.getAttribute("aria-pressed") === "true" ? "false" : "true"); return; }
+    if (t.dataset.del) { S.pendingDelete = t.dataset.del; return renderLog(); }
+    if (t.dataset.delNo) { S.pendingDelete = null; return renderLog(); }
+    if (t.dataset.delYes) { const id = t.dataset.delYes; S.pendingDelete = null; deleteEntry(t.dataset.coll, id); return renderLog(); }
+    if (t.dataset.wa) {
+      if (t.dataset.wa === "session") return showShare(sessionText(readSession($("#sessionForm"))), "Send to Roland's parents");
+      if (t.dataset.wa === "checkin") return showShare(checkinText(readCheckin($("#checkinForm"))), "Send to Roland's parents");
+      return showShare(reportText(), "2-week summary");
+    }
+    if (t.dataset.timer) return openTimer({ mode: "count", seconds: Number(t.dataset.timer) });
+    if (t.dataset.stopwatch) return openTimer({ mode: "watch", fill: t.dataset.fill || null });
+    if (t.id === "timerBtn" || t.closest("#timerBtn")) return openTimer({ mode: "count", seconds: 300 });
+    if (t.id === "sheetClose" || t.closest("#sheetClose")) return closeSheet();
+    if (t.dataset.tmode) { const fill = tState && tState.fill; stopTick(); tState = { ...tState, mode: t.dataset.tmode, fill, running: false, elapsed: 0, left: tState.total }; return renderTimer(); }
+    if (t.dataset.preset) { stopTick(); tState.total = tState.left = Number(t.dataset.preset); return renderTimer(); }
+    if (t.id === "tGo") {
+      const s = tState;
+      if (s.running) { s.running = false; cancelAnimationFrame(s.raf); lockScreen(false); }
+      else { if (s.mode === "count" && s.left <= 0) s.left = s.total; s.running = true; s.t0 = performance.now(); s.leftAtStart = s.left; s.base = s.elapsed; lockScreen(true); s.raf = requestAnimationFrame(tick); }
+      return renderTimer();
+    }
+    if (t.id === "tReset") { stopTick(); tState.left = tState.total; tState.elapsed = 0; return renderTimer(); }
+    if (t.id === "tUse") { const v = Math.round(tState.elapsed / 500) / 2; const f = document.getElementById(tState.fill); closeSheet(); if (f) { f.value = v; f.focus(); } return; }
+  });
+  document.addEventListener("change", (e) => { const k = e.target.dataset && e.target.dataset.kit; if (k) setKit(k, e.target.checked); });
+  document.addEventListener("submit", async (e) => {
+    e.preventDefault(); const f = e.target;
+    if (f.id === "sessionForm") {
+      const obj = readSession(f); if (obj.who) local.set("who", obj.who);
+      const btn = $("button[type=submit]", f); btn.disabled = true;
+      const ok = await addEntry("sessions", obj); btn.disabled = S.readOnly;
+      if (ok) { toast("Session saved."); renderLog(); showShare(sessionText(obj), "Saved. Send to WhatsApp too?"); }
+    }
+    if (f.id === "checkinForm") {
+      const obj = readCheckin(f); if (obj.who) local.set("who", obj.who);
+      const btn = $("button[type=submit]", f); btn.disabled = true;
+      const ok = await addEntry("checkins", obj); btn.disabled = S.readOnly;
+      if (ok) { toast("Check-in saved."); renderLog(); showShare(checkinText(obj), "Saved. Send to WhatsApp too?"); }
+    }
+  });
+  let rsz; window.addEventListener("resize", () => { clearTimeout(rsz); rsz = setTimeout(() => { if (S.tab === "progress") drawCharts(); }, 150); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#scrim").hidden) closeSheet(); });
+
+  // ---------- boot ----------
+  renderHeader();
+  const start = (location.hash || "").replace("#", "");
+  go(renderers[start] ? start : "today");
+  renderBanner();
+  initStore();
+})();
+</script>
